@@ -37,6 +37,9 @@ public class PlayerAgent : MonoBehaviour
     }
     public void MovePlayer(Vector2Int moveAmount)
     {
+        if (!mainBoardGrid.IsInRange(currentPos + moveAmount))
+            return;
+
         UpdatePlayerPos(currentPos + moveAmount);
     }
 }

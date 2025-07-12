@@ -30,6 +30,15 @@ public class MainBoardGrid : MonoBehaviour
     {
         return tiles[gridPos.x, gridPos.y].transform.position;
     }
+    public bool IsInRange(Vector2Int gridPos)
+    {
+        int width = tiles.GetLength(0);  // X dimension
+        int height = tiles.GetLength(1); // Y dimension
+
+        return gridPos.x >= 0 && gridPos.x < width &&
+               gridPos.y >= 0 && gridPos.y < height;
+    }
+
     public void OccupyTile(Vector2Int location, GameObject entity)
     {
         entitiesOnTiles[location.x, location.y] = entity;

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    public TurnStateEnum turnSate { get; private set; }
+    public TurnStateEnum turnSate { get; private set; } = TurnStateEnum.PlayerTurn;
 
     public void SetPlayerTurn()
     {
