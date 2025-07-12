@@ -9,13 +9,13 @@ public class TurnManager : MonoBehaviour
     public event Action PlayerTurnStart;
     public event Action EnemyTurnStart;
 
-    public void SetPlayerTurn()
+    public void EndEnemyTurn()
     {
         turnSate = TurnStateEnum.PlayerTurn;
         PlayerTurnStart?.Invoke();
     }
 
-    public void SetEnemyTurn()
+    public void EndPlayerTurn()
     {
         turnSate = TurnStateEnum.EnemyTurn;
         EnemyTurnStart?.Invoke();

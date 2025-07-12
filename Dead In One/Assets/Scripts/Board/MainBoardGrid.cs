@@ -9,8 +9,9 @@ public class MainBoardGrid : MonoBehaviour
 
     // Data
     private GameObject[,] tiles;
-    private GameObject[,] entitiesOnTiles;
+    public GameObject[,] entitiesOnTiles;
     public int[,] playerDistanceField;
+    public List<Vector2Int> valdEnemySpawnLocations = new();
 
     // Events
     public event Action OnGridGeneratedEvent;
@@ -94,6 +95,10 @@ public class MainBoardGrid : MonoBehaviour
         {
             Vector2Int current = frontier.Dequeue();
             int currentDist = distanceField[current.x, current.y];
+
+            // Populating validEnemySpawnLocations at distance 30 of the player
+            if (currentDist > 30 && currentDist < 60)
+                valdEnemySpawnLocations.Add(current);
 
             foreach (var dir in directions)
             {
