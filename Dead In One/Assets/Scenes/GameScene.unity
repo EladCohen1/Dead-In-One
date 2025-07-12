@@ -444,6 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainBoardGrid: {fileID: 1581964547}
+  inputChannel: {fileID: 11400000, guid: 93ee0cdff60968d4dba3ffb13c982f19, type: 2}
 --- !u!1001 &1153095048
 PrefabInstance:
   m_ObjectHideFlags: 0

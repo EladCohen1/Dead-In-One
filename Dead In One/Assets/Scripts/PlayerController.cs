@@ -1,10 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] MainBoardGrid mainBoardGrid;
+    [SerializeField] PlayerInputChannel inputChannel;
 
     // Data
     Vector2Int currentPos;
@@ -12,31 +14,13 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         mainBoardGrid.OnGridGeneratedEvent += InitPosition;
+        inputChannel.OnMoveEvent += HandleMoveEvent;
     }
 
     void OnDisable()
     {
         mainBoardGrid.OnGridGeneratedEvent -= InitPosition;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            MoveTileUp();
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            MoveTileLeft();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            MoveTileDown();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            MoveTileRight();
-        }
+        inputChannel.OnMoveEvent -= HandleMoveEvent;
     }
 
     // Utils
@@ -44,30 +28,17 @@ public class PlayerController : MonoBehaviour
     {
         UpdatePlayerPos(50, 50);
     }
-
     void UpdatePlayerPos(int xPos, int yPos)
     {
         Vector3 targetPos = mainBoardGrid.GetWorldPosByGridPos(new Vector2Int(xPos, yPos));
-
         transform.DOMove(targetPos, 0.3f).SetEase(Ease.OutQuad);
-
         currentPos = new Vector2Int(xPos, yPos);
     }
 
-    void MoveTileUp()
+    // Event Handlers
+    void HandleMoveEvent(Vector2Int dir)
     {
-        UpdatePlayerPos(currentPos.x, currentPos.y + 1);
-    }
-    void MoveTileLeft()
-    {
-        UpdatePlayerPos(currentPos.x - 1, currentPos.y);
-    }
-    void MoveTileDown()
-    {
-        UpdatePlayerPos(currentPos.x, currentPos.y - 1);
-    }
-    void MoveTileRight()
-    {
-        UpdatePlayerPos(currentPos.x + 1, currentPos.y);
+        Vector2Int newPlayerPos = currentPos + dir;
+        UpdatePlayerPos(newPlayerPos.x, newPlayerPos.y);
     }
 }
