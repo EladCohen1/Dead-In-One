@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MainBoardGrid : MonoBehaviour
@@ -9,9 +10,13 @@ public class MainBoardGrid : MonoBehaviour
     // Data
     private GameObject[,] tiles;
     private GameObject[,] entitiesOnTiles;
+    public int[,] playerDistanceField;
 
     // Events
     public event Action OnGridGeneratedEvent;
+
+    // Runtime Data
+    Vector2Int playerPos = new Vector2Int(-1, -1);
 
     void Awake()
     {
@@ -22,6 +27,7 @@ public class MainBoardGrid : MonoBehaviour
     {
         tiles = mainBoardGenerator.GenerateGrid();
         entitiesOnTiles = new GameObject[tiles.GetLength(0), tiles.GetLength(1)];
+        playerDistanceField = new int[tiles.GetLength(0), tiles.GetLength(1)];
         OnGridGeneratedEvent?.Invoke();
     }
 
@@ -47,10 +53,62 @@ public class MainBoardGrid : MonoBehaviour
     {
         entitiesOnTiles[location.x, location.y] = null;
     }
-    public void MoveToTile(Vector2Int startLocation, Vector2Int destination, GameObject entity)
+    public bool MoveToTile(Vector2Int startLocation, Vector2Int destination, GameObject entity)
     {
+        if (entitiesOnTiles[destination.x, destination.y] != null)
+            return false;
+
         if (startLocation.x != -1)
             ClearTile(startLocation);
         OccupyTile(destination, entity);
+
+        if (entity.GetComponent<PlayerAgent>() != null)
+            playerPos = destination;
+
+        return true;
+    }
+
+    // Player Distance Field
+    public void GenerateDistanceField()
+    {
+        int width = tiles.GetLength(0);
+        int height = tiles.GetLength(1);
+        Vector2Int origin = playerPos;
+
+        int[,] distanceField = new int[width, height];
+
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                distanceField[x, y] = int.MaxValue;
+
+        Queue<Vector2Int> frontier = new Queue<Vector2Int>();
+        frontier.Enqueue(origin);
+        distanceField[origin.x, origin.y] = 0;
+
+        Vector2Int[] directions = new Vector2Int[]
+        {
+        Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
+        };
+
+        while (frontier.Count > 0)
+        {
+            Vector2Int current = frontier.Dequeue();
+            int currentDist = distanceField[current.x, current.y];
+
+            foreach (var dir in directions)
+            {
+                Vector2Int neighbor = current + dir;
+                if (neighbor.x < 0 || neighbor.x >= width || neighbor.y < 0 || neighbor.y >= height)
+                    continue;
+
+                if (distanceField[neighbor.x, neighbor.y] > currentDist + 1)
+                {
+                    distanceField[neighbor.x, neighbor.y] = currentDist + 1;
+                    frontier.Enqueue(neighbor);
+                }
+            }
+        }
+
+        playerDistanceField = distanceField;
     }
 }

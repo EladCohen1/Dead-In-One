@@ -10,6 +10,7 @@ public class PlayerAgent : MonoBehaviour
     // Runtime Data
     Vector2Int currentPos = new Vector2Int(-1, -1);
 
+
     void OnEnable()
     {
         mainBoardGrid.OnGridGeneratedEvent += InitPosition;
@@ -28,7 +29,8 @@ public class PlayerAgent : MonoBehaviour
     void UpdatePlayerPos(Vector2Int destination)
     {
         // Grid Logic
-        mainBoardGrid.MoveToTile(currentPos, destination, gameObject);
+        if (!mainBoardGrid.MoveToTile(currentPos, destination, gameObject))
+            return;
 
         // Visual Move
         Vector3 targetPos = mainBoardGrid.GetWorldPosByGridPos(destination);
