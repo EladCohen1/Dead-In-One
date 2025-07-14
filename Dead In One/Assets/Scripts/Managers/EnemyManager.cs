@@ -13,10 +13,14 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] GameObject enemyKnightPrefab;
 
     [Header("Wave Data")]
-    int enemySpawnPerTurn = 1;
+    int enemySpawnPerTurn = 2;
+    int enemySpawnTurnCD = 5;
 
     [Header("Active Enemies")]
     List<EnemyBase> enemies = new();
+
+    // Runtime Data
+    private int enemySpawnTurnCDTimer;
 
     void Awake()
     {
@@ -69,13 +73,18 @@ public class EnemyManager : MonoBehaviour
 
     void EnemyTurnHandler()
     {
-        // Spawning
-        for (int i = 0; i < enemySpawnPerTurn; i++)
+        if (enemySpawnTurnCDTimer <= 0)
         {
-            EnemyBase newEnemy = SpawnEnemy(GetRandomWeightedEnemyType());
-            if (newEnemy != null)
-                enemies.Add(newEnemy);
+            // Spawning
+            for (int i = 0; i < enemySpawnPerTurn; i++)
+            {
+                EnemyBase newEnemy = SpawnEnemy(GetRandomWeightedEnemyType());
+                if (newEnemy != null)
+                    enemies.Add(newEnemy);
+            }
+            enemySpawnTurnCDTimer = enemySpawnTurnCD;
         }
+        enemySpawnTurnCDTimer--;
 
         // Moving
         foreach (EnemyBase enemy in enemies)
@@ -91,8 +100,8 @@ public class EnemyManager : MonoBehaviour
         // Define weights
         Dictionary<EnemyTypeEnum, float> weights = new Dictionary<EnemyTypeEnum, float>
     {
-        { EnemyTypeEnum.Pawn, 0.8f },   // 80% chance
-        { EnemyTypeEnum.Knight, 0.2f }  // 20% chance
+        { EnemyTypeEnum.Pawn, 0.99f },
+        { EnemyTypeEnum.Knight, 0.01f }
     };
 
         // Get total weight
