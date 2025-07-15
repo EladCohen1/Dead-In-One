@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class EnemyBase : MonoBehaviour
+public class EnemyMoveController : MonoBehaviour
 {
     [Header("Dependencies")]
     protected MainBoardGrid mainBoardGrid;

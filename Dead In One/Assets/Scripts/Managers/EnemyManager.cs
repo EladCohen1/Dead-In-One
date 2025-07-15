@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     int enemySpawnTurnCD = 5;
 
     [Header("Active Enemies")]
-    List<EnemyBase> enemies = new();
+    List<EnemyMoveController> enemies = new();
 
     // Runtime Data
     private int enemySpawnTurnCDTimer;
@@ -38,7 +38,7 @@ public class EnemyManager : MonoBehaviour
         turnManager.EnemyTurnStart -= EnemyTurnHandler;
     }
 
-    EnemyBase SpawnEnemy(EnemyTypeEnum enemyType)
+    EnemyMoveController SpawnEnemy(EnemyTypeEnum enemyType)
     {
         int randomIndex = Random.Range(0, mainBoardGrid.valdEnemySpawnLocations.Count);
         if (mainBoardGrid.valdEnemySpawnLocations.Count == 0)
@@ -63,7 +63,7 @@ public class EnemyManager : MonoBehaviour
         mainBoardGrid.OccupyTile(spawnPos, newEnemy);
 
         // Update EnemyBase Data
-        EnemyBase enemyBase = newEnemy.GetComponent<EnemyBase>();
+        EnemyMoveController enemyBase = newEnemy.GetComponent<EnemyMoveController>();
         if (enemyBase == null)
             return null;
 
@@ -73,12 +73,12 @@ public class EnemyManager : MonoBehaviour
 
     void EnemyTurnHandler()
     {
+        // Spawning
         if (enemySpawnTurnCDTimer <= 0)
         {
-            // Spawning
             for (int i = 0; i < enemySpawnPerTurn; i++)
             {
-                EnemyBase newEnemy = SpawnEnemy(GetRandomWeightedEnemyType());
+                EnemyMoveController newEnemy = SpawnEnemy(GetRandomWeightedEnemyType());
                 if (newEnemy != null)
                     enemies.Add(newEnemy);
             }
@@ -87,7 +87,7 @@ public class EnemyManager : MonoBehaviour
         enemySpawnTurnCDTimer--;
 
         // Moving
-        foreach (EnemyBase enemy in enemies)
+        foreach (EnemyMoveController enemy in enemies)
         {
             enemy.MoveTowardsPlayer();
         }
