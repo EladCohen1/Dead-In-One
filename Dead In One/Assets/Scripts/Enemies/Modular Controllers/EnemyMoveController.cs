@@ -8,15 +8,26 @@ public class EnemyMoveController : MonoBehaviour
     [Header("Dependencies")]
     protected MainBoardGrid mainBoardGrid;
 
-    // Data
-    [NonSerialized] public Vector2Int currentPos;
+    [Header("Materials")]
+    [SerializeField] Material attackMaterial;
+    [SerializeField] Material attackTileMaterial;
+
+
+    [Header("Directions")]
     public Vector2Int[] validMoveDirections;
+    public Vector2Int[] validAttackDirections;
+
+
+    // Runtime Vars
+    [NonSerialized] public Vector2Int currentPos;
+    public bool isAttackPrepared { get; private set; }
 
     void Awake()
     {
         mainBoardGrid = FindAnyObjectByType<MainBoardGrid>();
     }
 
+    // Actions
     public void MoveTowardsPlayer()
     {
         Vector2Int targetPos = FindMovementPosition();
@@ -29,12 +40,28 @@ public class EnemyMoveController : MonoBehaviour
         transform.DOMove(targetWorldPos, 0.3f).SetEase(Ease.OutQuad);
         currentPos = targetPos;
     }
+    public void PrepareToAttack()
+    {
+        foreach (Vector2Int dir in validAttackDirections)
+        {
+            Vector2Int neighbor = currentPos + dir;
 
+            // Bounds check
+            if (neighbor.x < 0 || neighbor.x >= mainBoardGrid.playerDistanceField.GetLength(0) ||
+                neighbor.y < 0 || neighbor.y >= mainBoardGrid.playerDistanceField.GetLength(1))
+                continue;
+
+
+        }
+        isAttackPrepared = true;
+    }
+
+    // Utils
     private Vector2Int FindMovementPosition()
     {
         float minDistance = Mathf.Infinity;
 
-        foreach (var dir in validMoveDirections)
+        foreach (Vector2Int dir in validMoveDirections)
         {
             Vector2Int neighbor = currentPos + dir;
 

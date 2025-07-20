@@ -50,6 +50,7 @@ public class MainBoardGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         tileObject.AddComponent<BoxCollider>();
+        tileObject.AddComponent<TileManager>();
 
         return tileObject;
     }
