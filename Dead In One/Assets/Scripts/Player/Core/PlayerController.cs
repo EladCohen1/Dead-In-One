@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         MovePlayer(dir);
-        turnManager.EndPlayerTurn();
+        EndPlayersTurn();
     }
 
     // Logic

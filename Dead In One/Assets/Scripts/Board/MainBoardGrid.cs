@@ -50,7 +50,8 @@ public class MainBoardGrid : MonoBehaviour
     }
     public void ClearTile(Vector2Int location)
     {
-        entitiesOnTiles[location.x, location.y] = null;
+        if (IsInRange(location))
+            entitiesOnTiles[location.x, location.y] = null;
     }
     public bool MoveToTile(EntityView entity, Vector2Int destination)
     {

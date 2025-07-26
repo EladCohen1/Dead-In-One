@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class PlayerModel : MonoBehaviour
 {
-    [SerializeField] private PlayerStatsSO _stats;
+    [Header("Components")]
+    [SerializeField] PlayerController playerController;
+
+    [Header("Data")]
+    [SerializeField] PlayerStatsSO _stats;
 
     // Public Getters
     public string GetName()

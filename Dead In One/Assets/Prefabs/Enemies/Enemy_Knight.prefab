@@ -79,6 +79,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: dab6c0dea21994386a57acc588faa9e5, type: 3}
       insertIndex: -1
       addedObject: {fileID: -5006943252983032108}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: dab6c0dea21994386a57acc588faa9e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6708697444266274841}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: dab6c0dea21994386a57acc588faa9e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6133144942953468558}
   m_SourcePrefab: {fileID: 100100000, guid: dab6c0dea21994386a57acc588faa9e5, type: 3}
 --- !u!1 &6771535587481557389 stripped
 GameObject:
@@ -97,6 +103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3247599bb5d54dc45bcf415dcb52d00d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainBoardGrid: {fileID: 0}
+  enemyController: {fileID: 6708697444266274841}
+  attackMaterial: {fileID: 0}
+  attackTileMaterial: {fileID: 0}
   validMoveDirections:
   - {x: 1, y: 2}
   - {x: 2, y: 1}
@@ -106,3 +116,28 @@ MonoBehaviour:
   - {x: -2, y: -1}
   - {x: -2, y: 1}
   - {x: -1, y: 2}
+  validAttackDirections: []
+--- !u!114 &6708697444266274841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771535587481557389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e64de9e780fd5445859b99066b1b1e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6133144942953468558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771535587481557389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acce305ef17e57429e24b8d5c9795b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

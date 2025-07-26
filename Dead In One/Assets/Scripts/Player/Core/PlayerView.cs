@@ -28,6 +28,5 @@ public class PlayerView : EntityView
             return;
 
         UpdatePos(currentPos + moveAmount);
-        playerController.EndPlayersTurn();
     }
 }

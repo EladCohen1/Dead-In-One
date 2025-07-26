@@ -77,8 +77,6 @@ public class EnemyManager : MonoBehaviour
                 break;
         }
 
-        mainBoardGrid.OccupyTile(spawnPos, newEnemy);
-
         // Update EnemyBase Data
         newEnemy.UpdatePos(spawnPos);
         return newEnemy;

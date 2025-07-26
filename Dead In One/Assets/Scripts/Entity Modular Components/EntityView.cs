@@ -16,6 +16,7 @@ public abstract class EntityView : MonoBehaviour
 
     public void UpdatePos(Vector2Int destination)
     {
+
         if (mainBoardGrid == null)
             Start();
 

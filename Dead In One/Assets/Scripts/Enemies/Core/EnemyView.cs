@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 public class EnemyView : EntityView
 {
     [Header("Components")]
-    EnemyController enemyController;
+    public EnemyController enemyController;
 
     [Header("Materials")]
     [SerializeField] Material attackMaterial;
@@ -25,7 +26,6 @@ public class EnemyView : EntityView
     {
         Vector2Int targetPos = FindMovementPosition();
 
-        // Logic Grid
         UpdatePos(targetPos);
     }
     // public void PrepareToAttack()
@@ -46,7 +46,6 @@ public class EnemyView : EntityView
     private Vector2Int FindMovementPosition()
     {
         float minDistance = Mathf.Infinity;
-
         foreach (Vector2Int dir in validMoveDirections)
         {
             Vector2Int neighbor = currentPos + dir;
@@ -64,7 +63,6 @@ public class EnemyView : EntityView
             }
 
         }
-
         if (minDistance == Mathf.Infinity)
             return currentPos;
 
