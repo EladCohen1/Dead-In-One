@@ -2,22 +2,26 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    [Header("Dependencies")]
-    Material baseMaterial;
+    Material baseMat;
+    Material attackedMat;
+    MeshRenderer meshRenderer;
 
-    void Awake()
+    public void Init(MeshRenderer meshRenderer, Material baseMat, Material attackedMat)
     {
-        baseMaterial = GetComponent<MeshRenderer>().material;
+        (this.meshRenderer, this.baseMat, this.attackedMat) = (meshRenderer, baseMat, attackedMat);
     }
 
-
     // Utils
+    public void SetAttackedTile()
+    {
+        meshRenderer.material = attackedMat;
+    }
     public void UpdateMaterial(Material newMat)
     {
-        GetComponent<MeshRenderer>().material = newMat;
+        meshRenderer.material = newMat;
     }
     public void RevertMatToBase()
     {
-        GetComponent<MeshRenderer>().material = baseMaterial;
+        meshRenderer.material = baseMat;
     }
 }

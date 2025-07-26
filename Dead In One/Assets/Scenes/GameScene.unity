@@ -728,8 +728,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad690088697a6d41a8b900e1c211800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPawnPrefab: {fileID: 6771535587481557389, guid: 0d2de6643f4035c4a92f6277b884ced0, type: 3}
-  enemyKnightPrefab: {fileID: 6771535587481557389, guid: 499c605d441593f439d0d32ab9bf1fb7, type: 3}
+  mainBoardGrid: {fileID: 1581964547}
+  turnManager: {fileID: 1581182018}
+  enemyPawnPrefab: {fileID: -539532181497609210, guid: 0d2de6643f4035c4a92f6277b884ced0, type: 3}
+  enemyKnightPrefab: {fileID: -5006943252983032108, guid: 499c605d441593f439d0d32ab9bf1fb7, type: 3}
+  enemySpawnPerTurn: 2
+  enemySpawnTurnCD: 5
+  pawnWeight: 99
+  knightWeight: 1
 --- !u!1 &1581964544
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +771,7 @@ MonoBehaviour:
   tileCountY: 100
   blackTileMat: {fileID: 2100000, guid: 46472fe97b795664eb08d9313c037e47, type: 2}
   whiteTileMat: {fileID: 2100000, guid: 790f6a66da231c24abf18cf8b11b854d, type: 2}
+  tileAttackedMat: {fileID: 2100000, guid: 5a3a20412468e0d4ba92a4c0bc22b6d6, type: 2}
 --- !u!4 &1581964546
 Transform:
   m_ObjectHideFlags: 0
@@ -792,7 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f3ec461de73b148a08cf907cd10feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  valdEnemySpawnLocations: []
+  mainBoardGenerator: {fileID: 1581964545}
 --- !u!1001 &8095440057656874541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -801,6 +808,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2414310642900309355, guid: 810587c149b575144835588db05f72af, type: 3}
+      propertyPath: turnManager
+      value: 
+      objectReference: {fileID: 1581182018}
+    - target: {fileID: 2891246526758724051, guid: 810587c149b575144835588db05f72af, type: 3}
+      propertyPath: turnManager
+      value: 
+      objectReference: {fileID: 1581182018}
+    - target: {fileID: 2891246526758724051, guid: 810587c149b575144835588db05f72af, type: 3}
+      propertyPath: mainBoardGrid
+      value: 
+      objectReference: {fileID: 1581964547}
+    - target: {fileID: 3507557657321411903, guid: 810587c149b575144835588db05f72af, type: 3}
+      propertyPath: mainBoardGrid
+      value: 
+      objectReference: {fileID: 1581964547}
     - target: {fileID: 5184775543862163739, guid: 810587c149b575144835588db05f72af, type: 3}
       propertyPath: m_Name
       value: Player

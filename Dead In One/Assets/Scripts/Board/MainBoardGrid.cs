@@ -4,30 +4,28 @@ using UnityEngine;
 
 public class MainBoardGrid : MonoBehaviour
 {
-    // Dependeincies
-    private MainBoardGenerator mainBoardGenerator;
+
+    [Header("Dependencies")]
+    [SerializeField] MainBoardGenerator mainBoardGenerator;
 
     // Data
-    private GameObject[,] tiles;
-    public GameObject[,] entitiesOnTiles;
+    private TileManager[,] tiles;
+    public EntityView[,] entitiesOnTiles;
     public int[,] playerDistanceField;
-    public List<Vector2Int> valdEnemySpawnLocations = new();
+    [NonSerialized] public List<Vector2Int> valdEnemySpawnLocations = new();
 
     // Events
     public event Action OnGridGeneratedEvent;
 
-    // Runtime Data
-    Vector2Int playerPos = new Vector2Int(-1, -1);
-
     void Awake()
     {
-        mainBoardGenerator = GetComponent<MainBoardGenerator>();
+        ServiceLocator.Register(this);
     }
 
     void Start()
     {
         tiles = mainBoardGenerator.GenerateGrid();
-        entitiesOnTiles = new GameObject[tiles.GetLength(0), tiles.GetLength(1)];
+        entitiesOnTiles = new EntityView[tiles.GetLength(0), tiles.GetLength(1)];
         playerDistanceField = new int[tiles.GetLength(0), tiles.GetLength(1)];
         OnGridGeneratedEvent?.Invoke();
     }
@@ -46,7 +44,7 @@ public class MainBoardGrid : MonoBehaviour
                gridPos.y >= 0 && gridPos.y < height;
     }
 
-    public void OccupyTile(Vector2Int location, GameObject entity)
+    public void OccupyTile(Vector2Int location, EntityView entity)
     {
         entitiesOnTiles[location.x, location.y] = entity;
     }
@@ -54,27 +52,31 @@ public class MainBoardGrid : MonoBehaviour
     {
         entitiesOnTiles[location.x, location.y] = null;
     }
-    public bool MoveToTile(Vector2Int startLocation, Vector2Int destination, GameObject entity)
+    public bool MoveToTile(EntityView entity, Vector2Int destination)
     {
+        if (!IsInRange(destination))
+            return false;
+
         if (entitiesOnTiles[destination.x, destination.y] != null)
             return false;
 
-        if (startLocation.x != -1)
-            ClearTile(startLocation);
+        if (entity.currentPos.x != -1)
+            ClearTile(entity.currentPos);
         OccupyTile(destination, entity);
-
-        if (entity.GetComponent<PlayerAgent>() != null)
-            playerPos = destination;
 
         return true;
     }
 
+    public TileManager GetTile(Vector2Int pos)
+    {
+        return tiles[pos.x, pos.y];
+    }
+
     // Player Distance Field
-    public void GenerateDistanceField()
+    public void GenerateDistanceField(Vector2Int origin)
     {
         int width = tiles.GetLength(0);
         int height = tiles.GetLength(1);
-        Vector2Int origin = playerPos;
 
         int[,] distanceField = new int[width, height];
 

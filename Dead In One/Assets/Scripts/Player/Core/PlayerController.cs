@@ -7,42 +7,56 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] PlayerInputChannel inputChannel;
-    TurnManager turnManager;
+    [SerializeField] TurnManager turnManager;
 
-    PlayerAgent playerAgent;
-    PlayerContext playerContext;
+    [Header("Components")]
+    [SerializeField] PlayerView playerView;
+    [SerializeField] PlayerModel playerModel;
 
-    void Awake()
-    {
-        playerContext = GetComponent<PlayerContext>();
-        playerAgent = GetComponent<PlayerAgent>();
-
-        turnManager = FindFirstObjectByType<TurnManager>();
-    }
+    // Events
+    public event Action EndPlayerTurnEvent;
+    public event Action StartPlayerTurnEvent;
 
     void OnEnable()
     {
         inputChannel.OnMoveEvent += HandleMoveEvent;
+        turnManager.PlayerTurnStart += StartPlayerTurn;
     }
 
     void OnDisable()
     {
         inputChannel.OnMoveEvent -= HandleMoveEvent;
+        turnManager.PlayerTurnStart -= StartPlayerTurn;
     }
 
 
     // Event Handlers
     void HandleMoveEvent(Vector2Int dir)
     {
+        if (turnManager.turnSate != TurnStateEnum.PlayerTurn)
+            return;
+
         MovePlayer(dir);
+        turnManager.EndPlayerTurn();
     }
 
     // Logic
     void MovePlayer(Vector2Int dir)
     {
-        if (turnManager.turnSate != TurnStateEnum.PlayerTurn)
-            return;
+        playerView.MovePlayer(dir);
+    }
 
-        playerAgent.MovePlayer(dir);
+    // Public Action
+    public void EndPlayersTurn()
+    {
+        EndPlayerTurnEvent?.Invoke();
+    }
+    public void StartPlayerTurn()
+    {
+        StartPlayerTurnEvent?.Invoke();
+    }
+    public Vector2Int GetPlayerPos()
+    {
+        return playerView.currentPos;
     }
 }

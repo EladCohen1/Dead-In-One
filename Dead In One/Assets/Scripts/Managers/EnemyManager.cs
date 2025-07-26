@@ -5,27 +5,35 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [Header("Dependencies")]
-    MainBoardGrid mainBoardGrid;
-    TurnManager turnManager;
+    [SerializeField] MainBoardGrid mainBoardGrid;
+    [SerializeField] TurnManager turnManager;
 
     [Header("Enemy Data")]
-    [SerializeField] GameObject enemyPawnPrefab;
-    [SerializeField] GameObject enemyKnightPrefab;
+    [SerializeField] EnemyView enemyPawnPrefab;
+    [SerializeField] EnemyView enemyKnightPrefab;
 
     [Header("Wave Data")]
-    int enemySpawnPerTurn = 2;
-    int enemySpawnTurnCD = 5;
+    [SerializeField] int enemySpawnPerTurn = 2;
+    [SerializeField] int enemySpawnTurnCD = 5;
+
+    [Header("Spawn Weights")]
+    [SerializeField] float pawnWeight;
+    [SerializeField] float knightWeight;
 
     [Header("Active Enemies")]
-    List<EnemyMoveController> enemies = new();
+    List<EnemyView> enemies = new();
 
     // Runtime Data
     private int enemySpawnTurnCDTimer;
 
     void Awake()
     {
-        mainBoardGrid = FindAnyObjectByType<MainBoardGrid>();
-        turnManager = FindAnyObjectByType<TurnManager>();
+        ServiceLocator.Register(this);
+    }
+
+    void Start()
+    {
+        enemySpawnTurnCDTimer = enemySpawnTurnCD;
     }
 
     void OnEnable()
@@ -38,15 +46,24 @@ public class EnemyManager : MonoBehaviour
         turnManager.EnemyTurnStart -= EnemyTurnHandler;
     }
 
-    EnemyMoveController SpawnEnemy(EnemyTypeEnum enemyType)
+    void EnemyTurnHandler()
     {
-        int randomIndex = Random.Range(0, mainBoardGrid.valdEnemySpawnLocations.Count);
+        SpawnEnemies();
+        MoveEnemies();
+
+        turnManager.EndEnemyTurn();
+    }
+
+
+    EnemyView SpawnEnemy(EnemyTypeEnum enemyType)
+    {
         if (mainBoardGrid.valdEnemySpawnLocations.Count == 0)
             return null;
+
+        int randomIndex = Random.Range(0, mainBoardGrid.valdEnemySpawnLocations.Count);
         Vector2Int spawnPos = mainBoardGrid.valdEnemySpawnLocations[randomIndex];
 
-        GameObject newEnemy;
-
+        EnemyView newEnemy;
         switch (enemyType)
         {
             case EnemyTypeEnum.Pawn:
@@ -63,45 +80,38 @@ public class EnemyManager : MonoBehaviour
         mainBoardGrid.OccupyTile(spawnPos, newEnemy);
 
         // Update EnemyBase Data
-        EnemyMoveController enemyBase = newEnemy.GetComponent<EnemyMoveController>();
-        if (enemyBase == null)
-            return null;
-
-        enemyBase.currentPos = spawnPos;
-        return enemyBase;
+        newEnemy.UpdatePos(spawnPos);
+        return newEnemy;
     }
-
-    void EnemyTurnHandler()
+    void SpawnEnemies()
     {
-        // Spawning
         if (enemySpawnTurnCDTimer <= 0)
         {
             for (int i = 0; i < enemySpawnPerTurn; i++)
             {
-                EnemyMoveController newEnemy = SpawnEnemy(GetRandomWeightedEnemyType());
+                EnemyView newEnemy = SpawnEnemy(GetRandomWeightedEnemyType());
                 if (newEnemy != null)
                     enemies.Add(newEnemy);
             }
             enemySpawnTurnCDTimer = enemySpawnTurnCD;
         }
         enemySpawnTurnCDTimer--;
+    }
 
-        // Moving
-        foreach (EnemyMoveController enemy in enemies)
+    void MoveEnemies()
+    {
+        foreach (EnemyView enemy in enemies)
         {
             enemy.MoveTowardsPlayer();
         }
-
-        turnManager.EndEnemyTurn();
     }
-
     public EnemyTypeEnum GetRandomWeightedEnemyType()
     {
         // Define weights
         Dictionary<EnemyTypeEnum, float> weights = new Dictionary<EnemyTypeEnum, float>
     {
-        { EnemyTypeEnum.Pawn, 0.99f },
-        { EnemyTypeEnum.Knight, 0.01f }
+        { EnemyTypeEnum.Pawn, pawnWeight },
+        { EnemyTypeEnum.Knight, knightWeight }
     };
 
         // Get total weight

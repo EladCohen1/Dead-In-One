@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyMoveController : MonoBehaviour
+public class EnemyView : EntityView
 {
-    [Header("Dependencies")]
-    protected MainBoardGrid mainBoardGrid;
+    [Header("Components")]
+    EnemyController enemyController;
 
     [Header("Materials")]
     [SerializeField] Material attackMaterial;
@@ -17,15 +18,7 @@ public class EnemyMoveController : MonoBehaviour
     public Vector2Int[] validMoveDirections;
     public Vector2Int[] validAttackDirections;
 
-
-    // Runtime Vars
-    [NonSerialized] public Vector2Int currentPos;
     public bool isAttackPrepared { get; private set; }
-
-    void Awake()
-    {
-        mainBoardGrid = FindAnyObjectByType<MainBoardGrid>();
-    }
 
     // Actions
     public void MoveTowardsPlayer()
@@ -33,28 +26,21 @@ public class EnemyMoveController : MonoBehaviour
         Vector2Int targetPos = FindMovementPosition();
 
         // Logic Grid
-        mainBoardGrid.MoveToTile(currentPos, targetPos, gameObject);
-
-        // Visual Move
-        Vector3 targetWorldPos = mainBoardGrid.GetWorldPosByGridPos(targetPos);
-        transform.DOMove(targetWorldPos, 0.3f).SetEase(Ease.OutQuad);
-        currentPos = targetPos;
+        UpdatePos(targetPos);
     }
-    public void PrepareToAttack()
-    {
-        foreach (Vector2Int dir in validAttackDirections)
-        {
-            Vector2Int neighbor = currentPos + dir;
+    // public void PrepareToAttack()
+    // {
+    //     foreach (Vector2Int dir in validAttackDirections)
+    //     {
+    //         Vector2Int neighbor = currentPos + dir;
 
-            // Bounds check
-            if (neighbor.x < 0 || neighbor.x >= mainBoardGrid.playerDistanceField.GetLength(0) ||
-                neighbor.y < 0 || neighbor.y >= mainBoardGrid.playerDistanceField.GetLength(1))
-                continue;
-
-
-        }
-        isAttackPrepared = true;
-    }
+    //         // Bounds check
+    //         if (neighbor.x < 0 || neighbor.x >= mainBoardGrid.playerDistanceField.GetLength(0) ||
+    //             neighbor.y < 0 || neighbor.y >= mainBoardGrid.playerDistanceField.GetLength(1))
+    //             continue;
+    //     }
+    //     isAttackPrepared = true;
+    // }
 
     // Utils
     private Vector2Int FindMovementPosition()

@@ -9,6 +9,11 @@ public class TurnManager : MonoBehaviour
     public event Action PlayerTurnStart;
     public event Action EnemyTurnStart;
 
+    void Awake()
+    {
+        ServiceLocator.Register(this);
+    }
+
     public void EndEnemyTurn()
     {
         turnSate = TurnStateEnum.PlayerTurn;

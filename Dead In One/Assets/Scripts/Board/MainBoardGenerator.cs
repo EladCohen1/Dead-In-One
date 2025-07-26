@@ -11,20 +11,22 @@ public class MainBoardGenerator : MonoBehaviour
     [Header("Art")]
     [SerializeField] Material blackTileMat;
     [SerializeField] Material whiteTileMat;
+    [Space(40)]
+    [SerializeField] Material tileAttackedMat;
 
     // Logic
-    private GameObject[,] tiles;
+    private TileManager[,] tiles;
 
-    public GameObject[,] GenerateGrid()
+    public TileManager[,] GenerateGrid()
     {
-        tiles = new GameObject[tileCountX, tileCountY];
+        tiles = new TileManager[tileCountX, tileCountY];
         for (int x = 0; x < tileCountX; x++)
             for (int y = 0; y < tileCountY; y++)
                 tiles[x, y] = GenerateTile(tileSize, x, y);
         return tiles;
     }
 
-    private GameObject GenerateTile(float tileSize, int xPos, int yPos)
+    private TileManager GenerateTile(float tileSize, int xPos, int yPos)
     {
         GameObject tileObject = new GameObject($"X: {xPos}, Y: {yPos}");
         tileObject.transform.parent = transform;
@@ -34,7 +36,8 @@ public class MainBoardGenerator : MonoBehaviour
         Mesh mesh = new();
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
 
-        tileObject.AddComponent<MeshRenderer>().material = ((xPos + yPos) % 2 == 1) ? blackTileMat : whiteTileMat;
+        MeshRenderer renderer = tileObject.AddComponent<MeshRenderer>();
+        renderer.material = ((xPos + yPos) % 2 == 1) ? blackTileMat : whiteTileMat;
 
         float half = tileSize / 2f;
         Vector3[] vertices = new Vector3[4];
@@ -50,8 +53,9 @@ public class MainBoardGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         tileObject.AddComponent<BoxCollider>();
-        tileObject.AddComponent<TileManager>();
+        TileManager tileManager = tileObject.AddComponent<TileManager>();
+        tileManager.Init(renderer, renderer.material, tileAttackedMat);
 
-        return tileObject;
+        return tileManager;
     }
 }
