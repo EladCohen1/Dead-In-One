@@ -19,8 +19,6 @@ public class EnemyView : EntityView
     public Vector2Int[] validMoveDirections;
     public Vector2Int[] validAttackDirections;
 
-    public bool isAttackPrepared { get; private set; }
-
     // Actions
     public void MoveTowardsPlayer()
     {

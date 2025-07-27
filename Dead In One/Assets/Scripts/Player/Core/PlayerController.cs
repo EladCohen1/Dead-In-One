@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] PlayerInputChannel inputChannel;
     [SerializeField] TurnManager turnManager;
+    [SerializeField] MainBoardGrid mainBoardGrid;
 
     [Header("Components")]
     [SerializeField] PlayerView playerView;
@@ -16,6 +17,23 @@ public class PlayerController : MonoBehaviour
     // Events
     public event Action EndPlayerTurnEvent;
     public event Action StartPlayerTurnEvent;
+
+    Vector2Int[] allAdjacentDirs = new Vector2Int[]
+    {
+        new Vector2Int(-1, -1),
+        new Vector2Int( 0, -1),
+        new Vector2Int( 1, -1),
+        new Vector2Int(-1,  0),
+        new Vector2Int( 1,  0),
+        new Vector2Int(-1,  1),
+        new Vector2Int( 0,  1),
+        new Vector2Int( 1,  1),
+    };
+
+    void Awake()
+    {
+        ServiceLocator.Register(this);
+    }
 
     void OnEnable()
     {
@@ -29,7 +47,6 @@ public class PlayerController : MonoBehaviour
         turnManager.PlayerTurnStart -= StartPlayerTurn;
     }
 
-
     // Event Handlers
     void HandleMoveEvent(Vector2Int dir)
     {
@@ -37,6 +54,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         MovePlayer(dir);
+        Attack();
         EndPlayersTurn();
     }
 
@@ -44,6 +62,20 @@ public class PlayerController : MonoBehaviour
     void MovePlayer(Vector2Int dir)
     {
         playerView.MovePlayer(dir);
+    }
+    void Attack()
+    {
+        foreach (Vector2Int attackDir in allAdjacentDirs)
+        {
+            Vector2Int target = attackDir + playerView.currentPos;
+            EntityView attackedEntity = mainBoardGrid.GetEntity(target);
+            if (attackedEntity == null)
+                continue;
+            if (attackedEntity is not EnemyView enemyView)
+                continue;
+
+            enemyView.enemyController.TakeDamage(100);
+        }
     }
 
     // Public Action
@@ -56,6 +88,17 @@ public class PlayerController : MonoBehaviour
         StartPlayerTurnEvent?.Invoke();
     }
     public Vector2Int GetPlayerPos()
+    {
+        return playerView.currentPos;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        playerModel.TakeDamage(damage);
+    }
+
+    // Public Data
+    public Vector2Int GetCurrentPosition()
     {
         return playerView.currentPos;
     }

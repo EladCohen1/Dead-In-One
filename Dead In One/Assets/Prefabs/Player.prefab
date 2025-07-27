@@ -136,7 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5e4034931baa74a84a7056b53e0a5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 2414310642900309355}
   _stats: {fileID: 11400000, guid: 69eb3039d29deeb4abf68adaa5ac81e1, type: 2}
+  HP: 0
 --- !u!114 &2891246526758724051
 MonoBehaviour:
   m_ObjectHideFlags: 0

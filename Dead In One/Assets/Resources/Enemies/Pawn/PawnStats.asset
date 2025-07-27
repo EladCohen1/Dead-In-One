@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03bfea935132df74a8e0b73e07d15b36, type: 3}
+  m_Name: PawnStats
+  m_EditorClassIdentifier: 
+  Name: Pawn
+  Base_HP: 100
+  Moves_Per_Turn: 1
+  Base_Armor: 0
+  Max_Movement_Squares: 1
+  Damage: 10
+  Number_Of_Attacks: 2
+  Exp_Dropped: 10

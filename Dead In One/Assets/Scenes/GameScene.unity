@@ -732,9 +732,9 @@ MonoBehaviour:
   turnManager: {fileID: 1581182018}
   enemyPawnPrefab: {fileID: -539532181497609210, guid: 0d2de6643f4035c4a92f6277b884ced0, type: 3}
   enemyKnightPrefab: {fileID: -5006943252983032108, guid: 499c605d441593f439d0d32ab9bf1fb7, type: 3}
-  enemySpawnPerTurn: 1
+  enemySpawnPerTurn: 2
   enemySpawnTurnCD: 5
-  pawnWeight: 0
+  pawnWeight: 99
   knightWeight: 1
 --- !u!1 &1581964544
 GameObject:
@@ -812,6 +812,10 @@ PrefabInstance:
       propertyPath: turnManager
       value: 
       objectReference: {fileID: 1581182018}
+    - target: {fileID: 2414310642900309355, guid: 810587c149b575144835588db05f72af, type: 3}
+      propertyPath: mainBoardGrid
+      value: 
+      objectReference: {fileID: 1581964547}
     - target: {fileID: 2891246526758724051, guid: 810587c149b575144835588db05f72af, type: 3}
       propertyPath: turnManager
       value: 

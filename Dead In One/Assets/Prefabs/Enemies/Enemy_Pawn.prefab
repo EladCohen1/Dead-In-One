@@ -121,6 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e64de9e780fd5445859b99066b1b1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyModel: {fileID: 452789929292055587}
+  enemyView: {fileID: -539532181497609210}
 --- !u!114 &452789929292055587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acce305ef17e57429e24b8d5c9795b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyController: {fileID: -1621388962880182310}
+  _stats: {fileID: 11400000, guid: 4307303847e19034a8c7adedbfc01551, type: 2}
+  HP: 0

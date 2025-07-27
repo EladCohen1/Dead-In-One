@@ -48,8 +48,8 @@ public class EnemyManager : MonoBehaviour
 
     void EnemyTurnHandler()
     {
+        ActEnemies();
         SpawnEnemies();
-        MoveEnemies();
 
         turnManager.EndEnemyTurn();
     }
@@ -96,11 +96,11 @@ public class EnemyManager : MonoBehaviour
         enemySpawnTurnCDTimer--;
     }
 
-    void MoveEnemies()
+    void ActEnemies()
     {
         foreach (EnemyView enemy in enemies)
         {
-            enemy.MoveTowardsPlayer();
+            enemy.enemyController.Act();
         }
     }
     public EnemyTypeEnum GetRandomWeightedEnemyType()
@@ -126,5 +126,11 @@ public class EnemyManager : MonoBehaviour
 
         // Fallback (should never reach here)
         return EnemyTypeEnum.Pawn;
+    }
+
+    // public Actions
+    public void RemoveEnemy(EnemyView enemyView)
+    {
+        enemies.Remove(enemyView);
     }
 }

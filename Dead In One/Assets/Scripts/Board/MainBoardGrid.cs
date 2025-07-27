@@ -70,7 +70,19 @@ public class MainBoardGrid : MonoBehaviour
 
     public TileManager GetTile(Vector2Int pos)
     {
-        return tiles[pos.x, pos.y];
+        if (IsInRange(pos))
+            return tiles[pos.x, pos.y];
+        return null;
+    }
+    public EntityView GetEntity(Vector2Int pos)
+    {
+        if (IsInRange(pos))
+            return entitiesOnTiles[pos.x, pos.y];
+        return null;
+    }
+    public void RemoveEntity(EntityView entity)
+    {
+        ClearTile(entity.currentPos);
     }
 
     // Player Distance Field
