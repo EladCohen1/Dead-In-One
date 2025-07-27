@@ -11,6 +11,7 @@ public class PlayerModel : MonoBehaviour
 
     [Header("Runtime Data")]
     public int HP;
+    public int CurrentActionPoints;
 
     void Awake()
     {
@@ -33,5 +34,16 @@ public class PlayerModel : MonoBehaviour
     public void TakeDamage(int damage)
     {
         HP -= damage;
+    }
+
+    // Action Points
+    public void ResetActionPoints()
+    {
+        CurrentActionPoints = _stats.Base_Action_Points_Per_Turn;
+    }
+    public bool UseActionPoints(int pointsToUse)
+    {
+        CurrentActionPoints -= pointsToUse;
+        return CurrentActionPoints <= 0;
     }
 }

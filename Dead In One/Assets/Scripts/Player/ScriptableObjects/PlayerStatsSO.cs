@@ -5,7 +5,7 @@ public class PlayerStatsSO : ScriptableObject
 {
     public string Name;
     public int Base_HP;
-    public int Base_Move_Points_Per_Turn;
+    public int Base_Action_Points_Per_Turn;
     public float Base_Armor;
     public float Base_Damage_Mod;
     public float Base_Crit_Chance_Add;

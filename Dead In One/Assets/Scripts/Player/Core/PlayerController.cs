@@ -52,10 +52,22 @@ public class PlayerController : MonoBehaviour
     {
         if (turnManager.turnSate != TurnStateEnum.PlayerTurn)
             return;
-
-        MovePlayer(dir);
-        Attack();
-        EndPlayersTurn();
+        bool turnEnded = false;
+        try
+        {
+            MovePlayer(dir);
+            if (playerModel.UseActionPoints(1))
+            {
+                turnEnded = true;
+                return;
+            }
+        }
+        finally
+        {
+            Attack();
+            if (turnEnded)
+                EndPlayersTurn();
+        }
     }
 
     // Logic
@@ -86,6 +98,7 @@ public class PlayerController : MonoBehaviour
     public void StartPlayerTurn()
     {
         StartPlayerTurnEvent?.Invoke();
+        playerModel.ResetActionPoints();
     }
     public Vector2Int GetPlayerPos()
     {
