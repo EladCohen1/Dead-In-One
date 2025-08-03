@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     // Events
     public event Action EndPlayerTurnEvent;
     public event Action StartPlayerTurnEvent;
+    public event Action PlayerDeathEvent;
 
     Vector2Int[] allAdjacentDirs = new Vector2Int[]
     {
@@ -108,6 +110,8 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         playerModel.TakeDamage(damage);
+        if (playerModel.HP <= 0)
+            PlayerDeathEvent?.Invoke();
     }
 
     // Public Data

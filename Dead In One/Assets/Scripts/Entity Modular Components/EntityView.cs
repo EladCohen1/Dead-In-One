@@ -26,7 +26,17 @@ public abstract class EntityView : MonoBehaviour
 
         // Visual Move
         Vector3 targetPos = mainBoardGrid.GetWorldPosByGridPos(destination);
-        transform.DOMove(targetPos, 0.3f).SetEase(Ease.OutQuad);
+        Tween tween = null;
+        var cachedTransform = transform;
+
+        tween = cachedTransform.DOMove(targetPos, 0.3f)
+            .SetEase(Ease.OutQuad)
+            .SetTarget(gameObject);
         currentPos = destination;
+    }
+
+    void OnDestroy()
+    {
+        DOTween.Kill(gameObject);
     }
 }
