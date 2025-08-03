@@ -7,12 +7,11 @@ using UnityEngine;
 
 public class EnemyView : EntityView
 {
+    [Header("Data")]
+    public EnemyTypeEnum type;
+
     [Header("Components")]
     public EnemyController enemyController;
-
-    [Header("Materials")]
-    [SerializeField] Material attackMaterial;
-    [SerializeField] Material attackTileMaterial;
 
 
     [Header("Directions")]

@@ -6,6 +6,9 @@ public class PlayerView : EntityView
     [Header("Components")]
     [SerializeField] PlayerController playerController;
 
+    [Header("Data")]
+    [SerializeField] Vector2Int startingPos;
+
     void OnEnable()
     {
         mainBoardGrid.OnGridGeneratedEvent += InitPosition;
@@ -19,7 +22,7 @@ public class PlayerView : EntityView
     // Utils
     void InitPosition()
     {
-        UpdatePos(new Vector2Int(50, 50));
+        UpdatePos(startingPos);
         playerController.EndPlayersTurn();
     }
     public void MovePlayer(Vector2Int moveAmount)

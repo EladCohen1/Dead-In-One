@@ -9,16 +9,13 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] TurnManager turnManager;
 
     [Header("Enemy Data")]
-    [SerializeField] EnemyView enemyPawnPrefab;
-    [SerializeField] EnemyView enemyKnightPrefab;
+    [SerializeField] List<EnemyWeightPair> enemyWeightPairs;
+    Dictionary<EnemyTypeEnum, EnemyWeightPair> enemyDic = new();
 
     [Header("Wave Data")]
     [SerializeField] int enemySpawnPerTurn = 2;
     [SerializeField] int enemySpawnTurnCD = 5;
 
-    [Header("Spawn Weights")]
-    [SerializeField] float pawnWeight;
-    [SerializeField] float knightWeight;
 
     [Header("Active Enemies")]
     List<EnemyView> enemies = new();
@@ -29,6 +26,7 @@ public class EnemyManager : MonoBehaviour
     void Awake()
     {
         ServiceLocator.Register(this);
+        InitEnemyDic();
     }
 
     void Start()
@@ -55,7 +53,7 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-    EnemyView SpawnEnemy(EnemyTypeEnum enemyType)
+    public EnemyView SpawnEnemy(EnemyView enemyView)
     {
         if (mainBoardGrid.valdEnemySpawnLocations.Count == 0)
             return null;
@@ -63,31 +61,20 @@ public class EnemyManager : MonoBehaviour
         int randomIndex = Random.Range(0, mainBoardGrid.valdEnemySpawnLocations.Count);
         Vector2Int spawnPos = mainBoardGrid.valdEnemySpawnLocations[randomIndex];
 
-        EnemyView newEnemy;
-        switch (enemyType)
-        {
-            case EnemyTypeEnum.Pawn:
-                newEnemy = Instantiate(enemyPawnPrefab, mainBoardGrid.GetWorldPosByGridPos(spawnPos), Quaternion.identity);
-                break;
-            case EnemyTypeEnum.Knight:
-                newEnemy = Instantiate(enemyKnightPrefab, mainBoardGrid.GetWorldPosByGridPos(spawnPos), Quaternion.identity);
-                break;
-            default:
-                newEnemy = Instantiate(enemyPawnPrefab, mainBoardGrid.GetWorldPosByGridPos(spawnPos), Quaternion.identity);
-                break;
-        }
-
-        // Update EnemyBase Data
+        Vector3 worldPos = mainBoardGrid.GetWorldPosByGridPos(spawnPos);
+        EnemyView newEnemy = Instantiate(enemyView, worldPos, Quaternion.identity);
         newEnemy.UpdatePos(spawnPos);
+
         return newEnemy;
     }
+
     void SpawnEnemies()
     {
         if (enemySpawnTurnCDTimer <= 0)
         {
             for (int i = 0; i < enemySpawnPerTurn; i++)
             {
-                EnemyView newEnemy = SpawnEnemy(GetRandomWeightedEnemyType());
+                EnemyView newEnemy = SpawnEnemy(GetRandomWeightedEnemy());
                 if (newEnemy != null)
                     enemies.Add(newEnemy);
             }
@@ -103,29 +90,30 @@ public class EnemyManager : MonoBehaviour
             enemy.enemyController.Act();
         }
     }
-    public EnemyTypeEnum GetRandomWeightedEnemyType()
+    public EnemyView GetRandomWeightedEnemy()
     {
-        // Define weights
-        Dictionary<EnemyTypeEnum, float> weights = new Dictionary<EnemyTypeEnum, float>
-    {
-        { EnemyTypeEnum.Pawn, pawnWeight },
-        { EnemyTypeEnum.Knight, knightWeight }
-    };
-
-        // Get total weight
-        float total = weights.Values.Sum();
-        float rand = Random.Range(0f, total);
+        float totalWeight = enemyWeightPairs.Sum(pair => pair.weight);
+        float rand = Random.Range(0f, totalWeight);
 
         float cumulative = 0f;
-        foreach (var kvp in weights)
+        foreach (var pair in enemyWeightPairs)
         {
-            cumulative += kvp.Value;
+            cumulative += pair.weight;
             if (rand <= cumulative)
-                return kvp.Key;
+                return pair.enemyView;
         }
 
-        // Fallback (should never reach here)
-        return EnemyTypeEnum.Pawn;
+        // Fallback
+        return enemyWeightPairs.Count > 0 ? enemyWeightPairs[0].enemyView : null;
+    }
+
+    // Utils
+    void InitEnemyDic()
+    {
+        foreach (EnemyWeightPair enemyWeightPair in enemyWeightPairs)
+        {
+            enemyDic.Add(enemyWeightPair.enemyView.type, enemyWeightPair);
+        }
     }
 
     // public Actions
@@ -133,4 +121,11 @@ public class EnemyManager : MonoBehaviour
     {
         enemies.Remove(enemyView);
     }
+}
+
+[System.Serializable]
+public struct EnemyWeightPair
+{
+    public EnemyView enemyView;
+    public float weight;
 }

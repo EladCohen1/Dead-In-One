@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2947676939045681101
+--- !u!1001 &2768598583114240906
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,35 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
       propertyPath: type
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
-      propertyPath: validMoveDirections.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
-      propertyPath: validMoveDirections.Array.data[0].x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
-      propertyPath: validMoveDirections.Array.data[1].y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
-      propertyPath: validMoveDirections.Array.data[2].x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
-      propertyPath: validMoveDirections.Array.data[3].y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 452789929292055587, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
-      propertyPath: _stats
-      value: 
-      objectReference: {fileID: 11400000, guid: 4307303847e19034a8c7adedbfc01551, type: 2}
     - target: {fileID: 6771535587481557389, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
       propertyPath: m_Name
-      value: Enemy_Pawn
+      value: Enemy_Rook
       objectReference: {fileID: 0}
     - target: {fileID: 6771535587481912749, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -83,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 6771535587484812685, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4300000, guid: dab6c0dea21994386a57acc588faa9e5, type: 3}
+      objectReference: {fileID: 4300000, guid: c5f20314b232248d3972665d64a42a3e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
