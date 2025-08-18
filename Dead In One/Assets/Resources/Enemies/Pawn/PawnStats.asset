@@ -20,3 +20,4 @@ MonoBehaviour:
   Damage: 10
   Number_Of_Attacks: 2
   Exp_Dropped: 10
+  Attack_Range_Grace: 2

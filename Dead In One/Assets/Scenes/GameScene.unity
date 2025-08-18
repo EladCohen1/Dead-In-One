@@ -732,9 +732,11 @@ MonoBehaviour:
   turnManager: {fileID: 1581182018}
   enemyWeightPairs:
   - enemyView: {fileID: 5794851625778295755, guid: 461abf9f3cd330e44a51a28e9ebd08e0, type: 3}
-    weight: 90
+    weight: 85
   - enemyView: {fileID: 4242346303814210508, guid: 25cd64509a6996e4b976405c5702b2df, type: 3}
     weight: 10
+  - enemyView: {fileID: 6840752229987456908, guid: 81175a9c0517a1947b3537cd16b91a29, type: 3}
+    weight: 5
   enemySpawnPerTurn: 2
   enemySpawnTurnCD: 2
 --- !u!1 &1581964544

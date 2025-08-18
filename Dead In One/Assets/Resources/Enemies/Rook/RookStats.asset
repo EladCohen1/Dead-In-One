@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03bfea935132df74a8e0b73e07d15b36, type: 3}
-  m_Name: KnightStats
+  m_Name: RookStats
   m_EditorClassIdentifier: 
-  Name: Knight
+  Name: Rook
   Base_HP: 150
   Moves_Per_Turn: 1
-  Base_Armor: 3
-  Max_Movement_Squares: 10
-  Damage: 20
+  Base_Armor: 0
+  Max_Movement_Squares: 8
+  Damage: 10
   Number_Of_Attacks: 1
-  Exp_Dropped: 20
+  Exp_Dropped: 10
   Attack_Range_Grace: 2

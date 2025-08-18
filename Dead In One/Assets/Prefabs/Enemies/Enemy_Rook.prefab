@@ -12,6 +12,58 @@ PrefabInstance:
       propertyPath: type
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validMoveDirections.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validAttackDirections.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validMoveDirections.Array.data[0].x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validMoveDirections.Array.data[1].x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validMoveDirections.Array.data[1].y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validMoveDirections.Array.data[2].x
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validMoveDirections.Array.data[3].x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validMoveDirections.Array.data[3].y
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validAttackDirections.Array.data[0].x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validAttackDirections.Array.data[1].y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validAttackDirections.Array.data[2].x
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: validAttackDirections.Array.data[3].y
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 452789929292055587, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: _stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 6bf10e69c01767740b7a0f3caa7da230, type: 2}
     - target: {fileID: 6771535587481557389, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
       propertyPath: m_Name
       value: Enemy_Rook

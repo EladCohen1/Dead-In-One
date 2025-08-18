@@ -39,6 +39,10 @@ public class EnemyModel : MonoBehaviour
     {
         return HP;
     }
+    public int GetAttackRangeGrace()
+    {
+        return _stats.Attack_Range_Grace;
+    }
 
     // Public Actions
     public void TakeDamage(int damage)

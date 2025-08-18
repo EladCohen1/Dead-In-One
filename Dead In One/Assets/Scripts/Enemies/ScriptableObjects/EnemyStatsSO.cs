@@ -11,4 +11,5 @@ public class EnemyStatsSO : ScriptableObject
     public int Damage;
     public int Number_Of_Attacks;
     public float Exp_Dropped;
+    public int Attack_Range_Grace;
 }
