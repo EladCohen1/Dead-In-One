@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         bool turnEnded = false;
         try
         {
-            MovePlayer(dir);
+            playerView.MovePlayer(dir);
             if (playerModel.UseActionPoints(1))
             {
                 turnEnded = true;
@@ -73,10 +73,6 @@ public class PlayerController : MonoBehaviour
     }
 
     // Logic
-    void MovePlayer(Vector2Int dir)
-    {
-        playerView.MovePlayer(dir);
-    }
     void Attack()
     {
         foreach (Vector2Int attackDir in allAdjacentDirs)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -17,6 +18,20 @@ public class EnemyView : EntityView
     [Header("Directions")]
     public Vector2Int[] validMoveDirections;
     public Vector2Int[] validAttackDirections;
+
+    [Header("Materials")]
+    [SerializeField] Material baseMat;
+    [SerializeField] Material attackedMat;
+    [SerializeField] MeshRenderer meshRenderer;
+
+
+    [Header("Coroutines")]
+    Coroutine flashCoroutine;
+
+    void OnDestroy()
+    {
+        KillAllAnimations();
+    }
 
     // Actions
     public void MoveTowardsPlayer()
@@ -81,5 +96,41 @@ public class EnemyView : EntityView
         int randomIndex = UnityEngine.Random.Range(0, possibleMovePos.Count);
 
         return possibleMovePos[randomIndex];
+    }
+
+    public void KillAllAnimations()
+    {
+        if (flashCoroutine != null)
+            StopCoroutine(flashCoroutine);
+    }
+
+    public void FlashAttack()
+    {
+        flashCoroutine = StartCoroutine(DoFlashAttacked());
+    }
+
+    IEnumerator DoFlashAttacked()
+    {
+        float timer = 1f;
+        bool isBaseMat = true;
+
+        while (timer > 0)
+        {
+            if (isBaseMat)
+            {
+                meshRenderer.material = attackedMat;
+                isBaseMat = false;
+            }
+            else
+            {
+                meshRenderer.material = baseMat;
+                isBaseMat = true;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+            timer -= 0.1f;
+        }
+
+        meshRenderer.material = baseMat;
     }
 }

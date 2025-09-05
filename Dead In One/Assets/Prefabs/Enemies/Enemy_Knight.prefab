@@ -13,6 +13,18 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: baseMat
+      value: 
+      objectReference: {fileID: 2100000, guid: d09888fb380864d7d820ffed5c260deb, type: 2}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: attackedMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a3a20412468e0d4ba92a4c0bc22b6d6, type: 2}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+      propertyPath: meshRenderer
+      value: 
+      objectReference: {fileID: 2280429546897117319}
+    - target: {fileID: -539532181497609210, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
       propertyPath: validMoveDirections.Array.size
       value: 8
       objectReference: {fileID: 0}
@@ -205,3 +217,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+--- !u!23 &2280429546897117319 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6771535587483813709, guid: 035ee0142eb69e4458147c799fbbbcfa, type: 3}
+  m_PrefabInstance: {fileID: 4781948874756986826}
+  m_PrefabAsset: {fileID: 0}

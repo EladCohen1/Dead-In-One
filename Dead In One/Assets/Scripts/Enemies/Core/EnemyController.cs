@@ -1,10 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// Currently Using move positions to attack
-// TODO: Move to attack positions
 public class EnemyController : MonoBehaviour
 {
     [Header("Components")]
@@ -26,10 +25,14 @@ public class EnemyController : MonoBehaviour
         new Vector2Int(-1,  1), new Vector2Int( 0,  1), new Vector2Int( 1,  1),
     };
 
+    [Header("Line Attack")]
+    private List<Vector2Int> lineAttackTargets = new();
+    private bool isAttackingLine;
+
     void Awake()
     {
-        mainBoardGrid = ServiceLocator.TryGet<MainBoardGrid>();
-        playerController = ServiceLocator.TryGet<PlayerController>();
+        mainBoardGrid = ServiceLocator.Get<MainBoardGrid>();
+        playerController = ServiceLocator.Get<PlayerController>();
     }
 
     public void Act()
@@ -53,14 +56,23 @@ public class EnemyController : MonoBehaviour
 
     void PrepareToAttack()
     {
-        preparedAttacks.Clear();
+        // Attack Line Setup
+        isAttackingLine = false;
+        lineAttackTargets.Clear();
+
+        // Attacked Tiles Clear
+        CleanUpAttackTiles();
+
+        // Get Best Matching Attackable Positions
         attackPositions = GetClosestAttackablePositions(enemyModel.GetNumberOfAttacks());
 
         foreach (Vector2Int attackPos in attackPositions)
         {
-            if (!IsLineMovement(attackPos))
+            Vector2Int delta = attackPos - enemyView.currentPos;
+            if (IsLineMovement(delta))
+                HandlePrepareStraightAttack(attackPos);
+            else
                 HandlePrepareNonStraightAttack(attackPos);
-            HandlePrepareStraightAttack(attackPos);
         }
     }
     void HandlePrepareNonStraightAttack(Vector2Int attackPos)
@@ -68,25 +80,31 @@ public class EnemyController : MonoBehaviour
         if (!mainBoardGrid.IsInRange(attackPos))
             return;
 
-        mainBoardGrid.GetTile(attackPos).SetAttackedTile();
+        mainBoardGrid.GetTile(attackPos).AttackTile(this);
         preparedAttacks.Add(attackPos);
     }
     void HandlePrepareStraightAttack(Vector2Int attackPos)
     {
+        lineAttackTargets.Add(attackPos);
+        isAttackingLine = true;
+
+        int safety = 0;
         Vector2Int delta = attackPos - enemyView.currentPos;
         Vector2Int step = new Vector2Int(Math.Sign(delta.x), Math.Sign(delta.y));
 
         Vector2Int pos = enemyView.currentPos + step;
-        while (pos != attackPos + step)
+        while (pos != attackPos + step && safety < 10)
         {
             if (mainBoardGrid.IsInRange(pos))
             {
-                mainBoardGrid.GetTile(pos).SetAttackedTile();
+                mainBoardGrid.GetTile(pos).AttackTile(this);
                 preparedAttacks.Add(pos);
             }
             pos += step;
+            safety++;
         }
-
+        if (safety >= 10)
+            Debug.LogWarning($"Safety Triggered, Tried to create a straight line from: {delta}");
         isAttackPrepared = true;
     }
 
@@ -96,25 +114,24 @@ public class EnemyController : MonoBehaviour
         Vector2Int playerPos = playerController.GetCurrentPosition();
 
         foreach (Vector2Int pos in preparedAttacks)
-        {
-            if (mainBoardGrid.IsInRange(pos))
-                HandleTileAttacked(pos);
-
             if (pos == playerPos) isHit = true;
-        }
 
         if (isHit)
         {
             playerController.TakeDamage(enemyModel.GetDamage());
-        }
-        isAttackPrepared = false;
-        preparedAttacks.Clear();
-    }
-    void HandleTileAttacked(Vector2Int pos)
-    {
-        mainBoardGrid.GetTile(pos).RevertMatToBase();
-    }
 
+            foreach (Vector2Int pos in preparedAttacks)
+                mainBoardGrid.GetTile(pos).FlashAttackedMaterial();
+
+            enemyView.FlashAttack();
+        }
+
+        isAttackPrepared = false;
+        CleanUpAttackTiles();
+
+        if (isAttackingLine)
+            MoveAfterLineAttack();
+    }
 
     // Public Actions
     public void TakeDamage(int damage)
@@ -129,8 +146,11 @@ public class EnemyController : MonoBehaviour
     {
         foreach (Vector2Int validAttack in enemyView.validAttackDirections)
         {
-            if (IsLineMovement(validAttack) && HandleIsPlayerCloseToAttackRangeLine(validAttack))
-                return true;
+            if (IsLineMovement(validAttack))
+            {
+                if (HandleIsPlayerCloseToAttackRangeLine(validAttack))
+                    return true;
+            }
             else if (HandleIsPlayerCloseToAttackRangeNonLine(validAttack))
                 return true;
         }
@@ -185,9 +205,7 @@ public class EnemyController : MonoBehaviour
         mainBoardGrid.RemoveEntity(enemyView);
         EnemyManager enemyManager = ServiceLocator.Get<EnemyManager>();
         enemyManager.RemoveEnemy(enemyView);
-
-        if (isAttackPrepared)
-            CleanUpAttackTiles();
+        CleanUpAttackTiles();
 
     }
     void CleanUpAttackTiles()
@@ -195,9 +213,28 @@ public class EnemyController : MonoBehaviour
         foreach (Vector2Int pos in preparedAttacks)
         {
             if (mainBoardGrid.IsInRange(pos))
-                mainBoardGrid.GetTile(pos).RevertMatToBase();
+                mainBoardGrid.GetTile(pos).RemoveAttacker(this);
         }
         preparedAttacks.Clear();
+    }
+    void MoveAfterLineAttack()
+    {
+        if (lineAttackTargets.Count == 0)
+            return;
+
+        Vector2Int closestTargetToPlayer = lineAttackTargets[0];
+
+        foreach (Vector2Int target in lineAttackTargets)
+        {
+            if ((closestTargetToPlayer - playerController.GetCurrentPosition()).sqrMagnitude
+            > (target - playerController.GetCurrentPosition()).sqrMagnitude)
+            {
+                closestTargetToPlayer = target;
+            }
+        }
+
+        if (mainBoardGrid.entitiesOnTiles[closestTargetToPlayer.x, closestTargetToPlayer.y] == null)
+            enemyView.UpdatePos(closestTargetToPlayer);
     }
 
     bool IsLineMovement(Vector2Int dir)
@@ -213,15 +250,22 @@ public class EnemyController : MonoBehaviour
         HashSet<Vector2Int> attackablePositions = new();
 
         // Add positions from valid attack directions
+
         foreach (Vector2Int dir in enemyView.validAttackDirections)
         {
-            attackablePositions.Add(enemyView.currentPos + dir);
+            if (IsLineMovement(dir))
+                if (HandleIsPlayerCloseToAttackRangeLine(dir))
+                    attackablePositions.Add(enemyView.currentPos + dir);
+                else if (HandleIsPlayerCloseToAttackRangeNonLine(dir))
+                    attackablePositions.Add(enemyView.currentPos + dir);
         }
 
-        foreach (Vector2Int dir in allAdjacentDirs)
-        {
-            attackablePositions.Add(enemyView.currentPos + dir);
-        }
+        if (attackablePositions.Count == 0)
+            foreach (Vector2Int dir in allAdjacentDirs)
+            {
+                if (HandleIsPlayerCloseToAttackRangeNonLine(dir))
+                    attackablePositions.Add(enemyView.currentPos + dir);
+            }
 
         // Sort positions by distance to playerPos
         return attackablePositions

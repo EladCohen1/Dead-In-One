@@ -23,6 +23,8 @@ public class EnemyManager : MonoBehaviour
     // Runtime Data
     private int enemySpawnTurnCDTimer;
 
+    //bool didSpawn = false;
+
     void Awake()
     {
         ServiceLocator.Register(this);
@@ -32,6 +34,7 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         enemySpawnTurnCDTimer = enemySpawnTurnCD;
+
     }
 
     void OnEnable()
@@ -48,6 +51,15 @@ public class EnemyManager : MonoBehaviour
     {
         ActEnemies();
         SpawnEnemies();
+        // if (!didSpawn)
+        // {
+        //     EnemyView newEnemy = SpawnEnemy(enemyDic.GetValueOrDefault(EnemyTypeEnum.Rook).enemyView);
+        //     if (newEnemy != null)
+        //     {
+        //         enemies.Add(newEnemy);
+        //         didSpawn = true;
+        //     }
+        // }
 
         turnManager.EndEnemyTurn();
     }
@@ -80,7 +92,8 @@ public class EnemyManager : MonoBehaviour
             }
             enemySpawnTurnCDTimer = enemySpawnTurnCD;
         }
-        enemySpawnTurnCDTimer--;
+        else
+            enemySpawnTurnCDTimer--;
     }
 
     void ActEnemies()
@@ -115,6 +128,7 @@ public class EnemyManager : MonoBehaviour
             enemyDic.Add(enemyWeightPair.enemyView.type, enemyWeightPair);
         }
     }
+
 
     // public Actions
     public void RemoveEnemy(EnemyView enemyView)
