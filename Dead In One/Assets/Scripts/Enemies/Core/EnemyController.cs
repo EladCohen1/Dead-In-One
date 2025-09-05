@@ -146,8 +146,6 @@ public class EnemyController : MonoBehaviour
 
         for (Vector2Int pos = start; pos != endExclusive; pos += step)
         {
-            Debug.Log(step);
-            Debug.Log(pos);
             if (mainBoardGrid.IsInRange(pos)
             && mainBoardGrid.playerDistanceField[pos.x, pos.y] <= enemyModel.GetAttackRangeGrace())
                 return true;
