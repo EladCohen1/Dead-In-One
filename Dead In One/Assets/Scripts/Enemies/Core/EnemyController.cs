@@ -132,7 +132,10 @@ public class EnemyController : MonoBehaviour
         enemyModel.TakeDamage(damage);
         enemyView.FlashAttacked(attackedMat);
         if (enemyModel.GetCurrentHP() <= 0)
+        {
+            DeathCleanUp();
             Destroy(gameObject);
+        }
     }
 
     // Utils
@@ -188,19 +191,12 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-
-    // bool IsPlayerAdjacent()
-    // {
-    //     Vector2Int delta = playerController.GetCurrentPosition() - enemyView.currentPos;
-    //     return Mathf.Abs(delta.x) <= 1 && Mathf.Abs(delta.y) <= 1 && delta != Vector2Int.zero;
-    // }
-    void OnDestroy()
+    void DeathCleanUp()
     {
         mainBoardGrid.RemoveEntity(enemyView);
         EnemyManager enemyManager = ServiceLocator.Get<EnemyManager>();
         enemyManager.RemoveEnemy(enemyView);
         CleanUpAttackTiles();
-
     }
     void CleanUpAttackTiles()
     {
