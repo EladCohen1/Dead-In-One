@@ -61,9 +61,9 @@ public class TileManager : MonoBehaviour
     }
 
     // Animations
-    public void FlashAttackedMaterial()
+    public void FlashAttackedMaterial(Material flashMat, float flashTime = 0.5f)
     {
-        flashCoroutine = StartCoroutine(DoFlashAttackedMaterial());
+        flashCoroutine = StartCoroutine(DoFlashAttackedMaterial(flashMat, flashTime));
     }
     public void KillAllAnimations()
     {
@@ -77,9 +77,9 @@ public class TileManager : MonoBehaviour
         if (!isInCoroutine && meshRenderer)
             meshRenderer.material = currentMaterial;
     }
-    IEnumerator DoFlashAttackedMaterial()
+    IEnumerator DoFlashAttackedMaterial(Material flashMat, float flashTime)
     {
-        float timer = 1f;
+        float timer = flashTime;
         bool isBaseMat = true;
         isInCoroutine = true;
 
@@ -87,7 +87,7 @@ public class TileManager : MonoBehaviour
         {
             if (isBaseMat)
             {
-                meshRenderer.material = attackedMat;
+                meshRenderer.material = flashMat;
                 isBaseMat = false;
             }
             else

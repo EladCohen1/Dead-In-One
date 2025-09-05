@@ -53,7 +53,7 @@ public class EnemyManager : MonoBehaviour
         SpawnEnemies();
         // if (!didSpawn)
         // {
-        //     EnemyView newEnemy = SpawnEnemy(enemyDic.GetValueOrDefault(EnemyTypeEnum.Rook).enemyView);
+        //     EnemyView newEnemy = SpawnEnemy(enemyDic.GetValueOrDefault(EnemyTypeEnum.Knight).enemyView);
         //     if (newEnemy != null)
         //     {
         //         enemies.Add(newEnemy);

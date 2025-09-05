@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerModel : MonoBehaviour
@@ -8,6 +9,9 @@ public class PlayerModel : MonoBehaviour
 
     [Header("Data")]
     [SerializeField] PlayerStatsSO _stats;
+
+    [Header("Weapons")]
+    [SerializeField] private List<WeaponSO> starterWeapons = new();
 
     [Header("Runtime Data")]
     public int HP;
@@ -28,6 +32,14 @@ public class PlayerModel : MonoBehaviour
     {
         // Add Max_Hp calculation using buffs and stat increases from proper managers here
         return _stats.Base_HP;
+    }
+    public float GetDamageMod()
+    {
+        return _stats.Base_Damage_Mod;
+    }
+    public List<WeaponSO> GetStarterWeaponSOs()
+    {
+        return starterWeapons;
     }
 
     // Public Actions

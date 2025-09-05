@@ -108,6 +108,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBoardGrid: {fileID: 0}
   playerController: {fileID: 2414310642900309355}
+  startingPos: {x: 0, y: 0}
+  baseMat: {fileID: 2100000, guid: ce80d7520e4604c6faaad086dc1a7590, type: 2}
+  attackedMat: {fileID: 2100000, guid: e0f6ed383845d1e4e82ca326c102547a, type: 2}
+  meshRenderer: {fileID: 5184775543864420315}
 --- !u!114 &2414310642900309355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputChannel: {fileID: 11400000, guid: 93ee0cdff60968d4dba3ffb13c982f19, type: 2}
   turnManager: {fileID: 0}
+  mainBoardGrid: {fileID: 0}
   playerView: {fileID: 3507557657321411903}
   playerModel: {fileID: 3295349604250019428}
 --- !u!114 &3295349604250019428
@@ -138,7 +143,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 2414310642900309355}
   _stats: {fileID: 11400000, guid: 69eb3039d29deeb4abf68adaa5ac81e1, type: 2}
+  starterWeapons:
+  - {fileID: 11400000, guid: 459f66ded552a0648808ba4434a4ed2d, type: 2}
   HP: 0
+  CurrentActionPoints: 0
 --- !u!114 &2891246526758724051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,3 +162,8 @@ MonoBehaviour:
   playerController: {fileID: 2414310642900309355}
   mainBoardGrid: {fileID: 0}
   turnManager: {fileID: 0}
+--- !u!23 &5184775543864420315 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: 9c7ba5185d28d475b902a82911b83e2c, type: 3}
+  m_PrefabInstance: {fileID: 5184775543862132667}
+  m_PrefabAsset: {fileID: 0}

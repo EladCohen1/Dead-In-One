@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,26 +16,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerView playerView;
     [SerializeField] PlayerModel playerModel;
 
+    [Header("Weapons")]
+    public List<WeaponController> ownedWeapons = new();
+
     // Events
     public event Action EndPlayerTurnEvent;
     public event Action StartPlayerTurnEvent;
     public event Action PlayerDeathEvent;
 
-    Vector2Int[] allAdjacentDirs = new Vector2Int[]
-    {
-        new Vector2Int(-1, -1),
-        new Vector2Int( 0, -1),
-        new Vector2Int( 1, -1),
-        new Vector2Int(-1,  0),
-        new Vector2Int( 1,  0),
-        new Vector2Int(-1,  1),
-        new Vector2Int( 0,  1),
-        new Vector2Int( 1,  1),
-    };
-
     void Awake()
     {
         ServiceLocator.Register(this);
+        InitStarterWeapons();
     }
 
     void OnEnable()
@@ -58,6 +51,11 @@ public class PlayerController : MonoBehaviour
         try
         {
             playerView.MovePlayer(dir);
+
+            // Recharge Weapons
+            foreach (WeaponController weapon in ownedWeapons)
+                weapon.RechargeOnMove();
+
             if (playerModel.UseActionPoints(1))
             {
                 turnEnded = true;
@@ -75,18 +73,38 @@ public class PlayerController : MonoBehaviour
     // Logic
     void Attack()
     {
-        foreach (Vector2Int attackDir in allAdjacentDirs)
+        foreach (WeaponController weapon in ownedWeapons)
         {
-            Vector2Int target = attackDir + playerView.currentPos;
-            EntityView attackedEntity = mainBoardGrid.GetEntity(target);
-            if (attackedEntity == null)
-                continue;
-            if (attackedEntity is not EnemyView enemyView)
+            if (!weapon.Attack())
                 continue;
 
-            enemyView.enemyController.TakeDamage(100);
+            int rolledDamage = weapon.RollDamage(out bool didCrit);
+
+            foreach (Vector2Int attackDir in weapon.GetAttackDirs())
+            {
+                Vector2Int target = attackDir + playerView.currentPos;
+                if (!mainBoardGrid.IsInRange(target))
+                    continue;
+
+                if (didCrit)
+                    mainBoardGrid.GetTile(target).FlashAttackedMaterial(weapon.GetAttackingCritMat(), 0.2f);
+                else
+                    mainBoardGrid.GetTile(target).FlashAttackedMaterial(weapon.GetAttackingMat(), 0.2f);
+
+                EntityView attackedEntity = mainBoardGrid.GetEntity(target);
+                if (attackedEntity == null)
+                    continue;
+                if (attackedEntity is not EnemyView enemyView)
+                    continue;
+
+                if (didCrit)
+                    enemyView.enemyController.TakeDamage((int)(rolledDamage * playerModel.GetDamageMod()), weapon.GetAttackedMat());
+                else
+                    enemyView.enemyController.TakeDamage((int)(rolledDamage * playerModel.GetDamageMod()), weapon.GetAttackedMat());
+            }
         }
     }
+
 
     // Public Action
     public void EndPlayersTurn()
@@ -102,10 +120,10 @@ public class PlayerController : MonoBehaviour
     {
         return playerView.currentPos;
     }
-
     public void TakeDamage(int damage)
     {
         playerModel.TakeDamage(damage);
+        playerView.FlashAttacked();
         if (playerModel.HP <= 0)
             PlayerDeathEvent?.Invoke();
     }
@@ -114,5 +132,17 @@ public class PlayerController : MonoBehaviour
     public Vector2Int GetCurrentPosition()
     {
         return playerView.currentPos;
+    }
+
+    void InitStarterWeapons()
+    {
+        foreach (WeaponSO weaponSO in playerModel.GetStarterWeaponSOs())
+        {
+            ownedWeapons.Add(InitWeapon(weaponSO));
+        }
+    }
+    WeaponController InitWeapon(WeaponSO weaponSO)
+    {
+        return new WeaponController(weaponSO);
     }
 }

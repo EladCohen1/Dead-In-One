@@ -20,8 +20,9 @@ public class EnemyView : EntityView
     public Vector2Int[] validAttackDirections;
 
     [Header("Materials")]
-    [SerializeField] Material baseMat;
-    [SerializeField] Material attackedMat;
+    public Material baseMat;
+    public Material attackedMat;
+    public Material attackingMat;
     [SerializeField] MeshRenderer meshRenderer;
 
 
@@ -40,19 +41,6 @@ public class EnemyView : EntityView
 
         UpdatePos(targetPos);
     }
-    // public void PrepareToAttack()
-    // {
-    //     foreach (Vector2Int dir in validAttackDirections)
-    //     {
-    //         Vector2Int neighbor = currentPos + dir;
-
-    //         // Bounds check
-    //         if (neighbor.x < 0 || neighbor.x >= mainBoardGrid.playerDistanceField.GetLength(0) ||
-    //             neighbor.y < 0 || neighbor.y >= mainBoardGrid.playerDistanceField.GetLength(1))
-    //             continue;
-    //     }
-    //     isAttackPrepared = true;
-    // }
 
     // Utils
     private Vector2Int FindMovementPosition()
@@ -104,14 +92,15 @@ public class EnemyView : EntityView
             StopCoroutine(flashCoroutine);
     }
 
-    public void FlashAttack()
+    public void FlashAttacked(Material attackedMat = null)
     {
-        flashCoroutine = StartCoroutine(DoFlashAttacked());
+        Material attackedMatToSend = attackedMat != null ? attackedMat : this.attackedMat;
+        flashCoroutine = StartCoroutine(DoFlashAttacked(attackedMatToSend));
     }
 
-    IEnumerator DoFlashAttacked()
+    IEnumerator DoFlashAttacked(Material attackedMat)
     {
-        float timer = 1f;
+        float timer = 0.5f;
         bool isBaseMat = true;
 
         while (timer > 0)

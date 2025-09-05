@@ -103,9 +103,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3247599bb5d54dc45bcf415dcb52d00d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainBoardGrid: {fileID: 0}
+  type: 0
   enemyController: {fileID: -1621388962880182310}
   validMoveDirections: []
   validAttackDirections: []
+  baseMat: {fileID: 2100000, guid: d09888fb380864d7d820ffed5c260deb, type: 2}
+  attackedMat: {fileID: 2100000, guid: db73ab73d04fb8d45b7a07bdf3b1e234, type: 2}
+  attackingMat: {fileID: 2100000, guid: 5a3a20412468e0d4ba92a4c0bc22b6d6, type: 2}
+  meshRenderer: {fileID: 6771535587483813709}
 --- !u!114 &-1621388962880182310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,3 +141,8 @@ MonoBehaviour:
   enemyController: {fileID: -1621388962880182310}
   _stats: {fileID: 0}
   HP: 0
+--- !u!23 &6771535587483813709 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2300000, guid: dab6c0dea21994386a57acc588faa9e5, type: 3}
+  m_PrefabInstance: {fileID: 6771535587481526061}
+  m_PrefabAsset: {fileID: 0}

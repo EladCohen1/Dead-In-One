@@ -16,6 +16,6 @@ MonoBehaviour:
   Base_HP: 100
   Base_Action_Points_Per_Turn: 1
   Base_Armor: 5
-  Base_Damage_Mod: 0
+  Base_Damage_Mod: 1.2
   Base_Crit_Chance_Add: 5
   Base_Crit_Damage_Add: 0
