@@ -1,16 +1,15 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class ExpDropController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public int ExpHeld;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        transform.DOMoveY(1f, 0.7f) // move to y = 1 over 1 second
+                 .From(0.3f)      // start from y = 0.5
+                 .SetLoops(-1, LoopType.Yoyo) // -1 = infinite, Yoyo = back and forth
+                 .SetEase(Ease.InOutSine);   // smooth easing
     }
 }

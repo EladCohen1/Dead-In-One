@@ -289,8 +289,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.5663548, y: -0}
-  m_SizeDelta: {x: 39.4778, y: 35.2953}
+  m_AnchoredPosition: {x: -0.5737, y: -0}
+  m_SizeDelta: {x: 47.4629, y: 35.2953}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &269873542
 MonoBehaviour:
@@ -1249,7 +1249,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27.925331, y: 0}
+  m_AnchoredPosition: {x: 34.2, y: 0}
   m_SizeDelta: {x: 12.0779, y: 35.2953}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1065658792
@@ -1306,7 +1306,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1771,11 +1771,11 @@ MonoBehaviour:
   turnManager: {fileID: 1581182018}
   enemyWeightPairs:
   - enemyView: {fileID: 5794851625778295755, guid: 461abf9f3cd330e44a51a28e9ebd08e0, type: 3}
-    weight: 85
+    weight: 75
   - enemyView: {fileID: 4242346303814210508, guid: 25cd64509a6996e4b976405c5702b2df, type: 3}
-    weight: 10
+    weight: 15
   - enemyView: {fileID: 6840752229987456908, guid: 81175a9c0517a1947b3537cd16b91a29, type: 3}
-    weight: 5
+    weight: 10
   enemySpawnPerTurn: 2
   enemySpawnTurnCD: 2
 --- !u!114 &1581182021
@@ -2240,8 +2240,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65.81523, y: 0}
-  m_SizeDelta: {x: 57.6831, y: 35.2953}
+  m_AnchoredPosition: {x: 69.15137, y: 0}
+  m_SizeDelta: {x: 51.0108, y: 35.2953}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2071742888
 MonoBehaviour:

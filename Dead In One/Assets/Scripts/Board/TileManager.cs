@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour
@@ -17,13 +18,15 @@ public class TileManager : MonoBehaviour
     // Runtime Vars
     Material currentMaterial;
     HashSet<EnemyController> attackers = new();
-    public int HeldExp;
+
+    // Drops
+    public HashSet<HealDropController> HeldHp = new();
+    public HashSet<ExpDropController> HeldExp = new();
 
     public void Init(MeshRenderer meshRenderer, Material baseMat, Material attackedMat)
     {
         (this.meshRenderer, this.baseMat, this.attackedMat) = (meshRenderer, baseMat, attackedMat);
         currentMaterial = baseMat;
-        HeldExp = 0;
     }
 
     // Public Methods
@@ -37,6 +40,27 @@ public class TileManager : MonoBehaviour
         attackers.Remove(enemyController);
         UpdateMatState();
     }
+    public void AddExpDropped(ExpDropController expDropController)
+    {
+        HeldExp.Add(expDropController);
+    }
+    public void AddHpDropped(HealDropController healDropController)
+    {
+        HeldHp.Add(healDropController);
+    }
+    public List<HealDropController> PickUpHp()
+    {
+        List<HealDropController> result = HeldHp.ToList();
+        HeldHp.Clear();
+        return result;
+    }
+    public List<ExpDropController> PickUpExp()
+    {
+        List<ExpDropController> result = HeldExp.ToList();
+        HeldExp.Clear();
+        return result;
+    }
+
 
     // Utils
     void SetAttackedTile()

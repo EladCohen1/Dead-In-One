@@ -10,6 +10,9 @@ public class EnemyStatsSO : ScriptableObject
     public int Max_Movement_Squares;
     public int Damage;
     public int Number_Of_Attacks;
-    public float Exp_Dropped;
+    public int Hp_Drop_Chance;
+    public int Hp_Dropped;
+    public int Exp_Drop_Chance;
+    public int Exp_Dropped;
     public int Attack_Range_Grace;
 }

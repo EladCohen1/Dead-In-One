@@ -126,6 +126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyModel: {fileID: 452789929292055587}
   enemyView: {fileID: -539532181497609210}
+  expDropPrefab: {fileID: 5537351838464949656, guid: 579348af3b1cdaf4da17ba41160d76b4, type: 3}
+  hpDropPrefab: {fileID: 1515671727462231041, guid: 480353df6be44b94ea94f0a9a70c4fb9, type: 3}
 --- !u!114 &452789929292055587
 MonoBehaviour:
   m_ObjectHideFlags: 0

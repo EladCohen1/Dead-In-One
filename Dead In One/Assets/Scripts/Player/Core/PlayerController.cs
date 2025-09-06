@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         try
         {
             playerView.MovePlayer(dir);
-
+            HandlePickUpItems();
             // Recharge Weapons
             foreach (WeaponController weapon in ownedWeapons)
                 weapon.RechargeOnMove();
@@ -140,7 +140,8 @@ public class PlayerController : MonoBehaviour
     {
         if (playerLevelManager.GainExp(exp))
             HandleLevelUp();
-        CurrentExpChanged?.Invoke(playerLevelManager.currentExp);
+        else
+            CurrentExpChanged?.Invoke(playerLevelManager.currentExp);
     }
 
     // Public Data
@@ -167,5 +168,29 @@ public class PlayerController : MonoBehaviour
         CurrentLevelChanged?.Invoke(playerLevelManager.currentLevel);
         CurrentExpChanged?.Invoke(playerLevelManager.currentExp);
         ReqExpLevelUpChanged?.Invoke(playerLevelManager.GetExpReqToLevelUp());
+    }
+    void HandlePickUpItems()
+    {
+        List<ExpDropController> expDrops = mainBoardGrid.GetTile(playerView.currentPos).PickUpExp();
+        List<HealDropController> HpDrops = mainBoardGrid.GetTile(playerView.currentPos).PickUpHp();
+
+        foreach (ExpDropController item in expDrops)
+        {
+            GainExp(item.ExpHeld);
+        }
+        foreach (HealDropController item in HpDrops)
+        {
+            playerModel.Heal(item.HpHeld);
+            HPChanged?.Invoke(playerModel.GetCurrentHP());
+        }
+
+        foreach (ExpDropController item in expDrops)
+        {
+            Destroy(item.gameObject);
+        }
+        foreach (HealDropController item in HpDrops)
+        {
+            Destroy(item.gameObject);
+        }
     }
 }

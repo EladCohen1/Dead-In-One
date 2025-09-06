@@ -43,6 +43,22 @@ public class EnemyModel : MonoBehaviour
     {
         return _stats.Attack_Range_Grace;
     }
+    public int GetChanceToDropHp()
+    {
+        return _stats.Hp_Drop_Chance;
+    }
+    public int GetChanceToDropExp()
+    {
+        return _stats.Exp_Drop_Chance;
+    }
+    public int GetHpDropped()
+    {
+        return _stats.Hp_Dropped;
+    }
+    public int GetExpDropped()
+    {
+        return _stats.Exp_Dropped;
+    }
 
     // Public Actions
     public void TakeDamage(int damage)

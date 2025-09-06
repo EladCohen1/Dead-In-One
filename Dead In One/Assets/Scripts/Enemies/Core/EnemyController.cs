@@ -21,7 +21,10 @@ public class EnemyController : MonoBehaviour
 
     [Header("Line Attack")]
     private List<Vector2Int> lineAttackTargets = new();
-    private bool isAttackingLine;
+
+    [Header("Drop Prefabs")]
+    [SerializeField] ExpDropController expDropPrefab;
+    [SerializeField] HealDropController hpDropPrefab;
 
     void Awake()
     {
@@ -51,7 +54,6 @@ public class EnemyController : MonoBehaviour
     void PrepareToAttack()
     {
         // Attack Line Setup
-        isAttackingLine = false;
         lineAttackTargets.Clear();
 
         // Attacked Tiles Clear
@@ -82,7 +84,6 @@ public class EnemyController : MonoBehaviour
     void HandlePrepareStraightAttack(Vector2Int attackPos)
     {
         lineAttackTargets.Add(attackPos);
-        isAttackingLine = true;
 
         int safety = 0;
         Vector2Int delta = attackPos - enemyView.currentPos;
@@ -122,7 +123,6 @@ public class EnemyController : MonoBehaviour
         isAttackPrepared = false;
         CleanUpAttackTiles();
 
-        // if (isAttackingLine)
         MoveAfterAttack();
     }
 
@@ -191,6 +191,7 @@ public class EnemyController : MonoBehaviour
     void Die()
     {
         DeathCleanUp();
+        HandleDrops();
         Destroy(gameObject);
     }
     void DeathCleanUp()
@@ -228,9 +229,41 @@ public class EnemyController : MonoBehaviour
         if (mainBoardGrid.IsInRange(closestTargetToPlayer) && mainBoardGrid.entitiesOnTiles[closestTargetToPlayer.x, closestTargetToPlayer.y] == null)
             enemyView.UpdatePos(closestTargetToPlayer);
     }
+    void HandleDrops()
+    {
+        if (RollChance(enemyModel.GetChanceToDropHp()))
+        {
+            DropHp();
+            return;
+        }
+        if (RollChance(enemyModel.GetChanceToDropExp()))
+        {
+            DropExp();
+            return;
+        }
+    }
+    void DropHp()
+    {
+        Vector3 pos = mainBoardGrid.GetWorldPosByGridPos(enemyView.currentPos);
+        pos.y = 0.5f;
+        HealDropController healDropController = Instantiate(hpDropPrefab);
+        healDropController.transform.position = pos;
+        healDropController.HpHeld = enemyModel.GetHpDropped();
+        mainBoardGrid.GetTile(enemyView.currentPos).AddHpDropped(healDropController);
+    }
     void DropExp()
     {
+        Vector3 pos = mainBoardGrid.GetWorldPosByGridPos(enemyView.currentPos);
+        pos.y = 0.5f;
+        ExpDropController ExpDropController = Instantiate(expDropPrefab);
+        ExpDropController.transform.position = pos;
+        ExpDropController.ExpHeld = enemyModel.GetExpDropped();
+        mainBoardGrid.GetTile(enemyView.currentPos).AddExpDropped(ExpDropController);
+    }
 
+    public bool RollChance(float percent)
+    {
+        return UnityEngine.Random.Range(0f, 100f) < percent;
     }
 
     List<Vector2Int> GetClosestAttackablePositions(int count)

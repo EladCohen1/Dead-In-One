@@ -48,6 +48,9 @@ public class PlayerLevelManager : MonoBehaviour
     // Utils
     void LevelUp()
     {
+        // level up 0 to 1 safety
+        if (currentExp > GetExpReqToLevelUp())
+            currentExp -= GetExpReqToLevelUp();
         currentLevel++;
         levelStatModifier = GetLevelStatsModifier();
     }

@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
         playerController.MaxHPChanged += UpdatePlayerMaxHpUI;
         playerController.CurrentLevelChanged += UpdatePlayerCurrentLevel;
         playerController.CurrentExpChanged += UpdatePlayerCurrentExpUI;
+        playerController.ReqExpLevelUpChanged += UpdatePlayerReqExpLevelUpUI;
     }
     void OnDisable()
     {
@@ -41,6 +42,8 @@ public class UIManager : MonoBehaviour
         playerController.HPChanged -= UpdatePlayerHpUI;
         playerController.MaxHPChanged -= UpdatePlayerMaxHpUI;
         playerController.CurrentLevelChanged -= UpdatePlayerCurrentLevel;
+        playerController.CurrentExpChanged -= UpdatePlayerCurrentExpUI;
+        playerController.ReqExpLevelUpChanged -= UpdatePlayerReqExpLevelUpUI;
     }
 
     void Start()

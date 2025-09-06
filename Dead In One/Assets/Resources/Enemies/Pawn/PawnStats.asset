@@ -19,5 +19,8 @@ MonoBehaviour:
   Max_Movement_Squares: 1
   Damage: 10
   Number_Of_Attacks: 2
-  Exp_Dropped: 10
+  Hp_Drop_Chance: 2
+  Hp_Dropped: 10
+  Exp_Drop_Chance: 50
+  Exp_Dropped: 3
   Attack_Range_Grace: 2
