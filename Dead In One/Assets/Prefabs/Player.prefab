@@ -88,6 +88,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 9c7ba5185d28d475b902a82911b83e2c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2891246526758724051}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 9c7ba5185d28d475b902a82911b83e2c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3361913785152132029}
   m_SourcePrefab: {fileID: 100100000, guid: 9c7ba5185d28d475b902a82911b83e2c, type: 3}
 --- !u!1 &5184775543862163739 stripped
 GameObject:
@@ -108,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBoardGrid: {fileID: 0}
   playerController: {fileID: 2414310642900309355}
-  startingPos: {x: 0, y: 0}
+  startingPos: {x: 20, y: 20}
   baseMat: {fileID: 2100000, guid: ce80d7520e4604c6faaad086dc1a7590, type: 2}
   attackedMat: {fileID: 2100000, guid: e0f6ed383845d1e4e82ca326c102547a, type: 2}
   meshRenderer: {fileID: 5184775543864420315}
@@ -129,6 +132,7 @@ MonoBehaviour:
   mainBoardGrid: {fileID: 0}
   playerView: {fileID: 3507557657321411903}
   playerModel: {fileID: 3295349604250019428}
+  playerLevelManager: {fileID: 3361913785152132029}
 --- !u!114 &3295349604250019428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +166,20 @@ MonoBehaviour:
   playerController: {fileID: 2414310642900309355}
   mainBoardGrid: {fileID: 0}
   turnManager: {fileID: 0}
+--- !u!114 &3361913785152132029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184775543862163739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dac500b46ca94d147b809bae00f0e6f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseExpReqLevelUp: 100
+  expReqIncreasePerLevel: 0.2
 --- !u!23 &5184775543864420315 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2300000, guid: 9c7ba5185d28d475b902a82911b83e2c, type: 3}

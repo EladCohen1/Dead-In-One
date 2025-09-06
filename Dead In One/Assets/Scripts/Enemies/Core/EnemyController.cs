@@ -122,8 +122,8 @@ public class EnemyController : MonoBehaviour
         isAttackPrepared = false;
         CleanUpAttackTiles();
 
-        if (isAttackingLine)
-            MoveAfterLineAttack();
+        // if (isAttackingLine)
+        MoveAfterAttack();
     }
 
     // Public Actions
@@ -132,10 +132,7 @@ public class EnemyController : MonoBehaviour
         enemyModel.TakeDamage(damage);
         enemyView.FlashAttacked(attackedMat);
         if (enemyModel.GetCurrentHP() <= 0)
-        {
-            DeathCleanUp();
-            Destroy(gameObject);
-        }
+            Die();
     }
 
     // Utils
@@ -191,6 +188,11 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
+    void Die()
+    {
+        DeathCleanUp();
+        Destroy(gameObject);
+    }
     void DeathCleanUp()
     {
         mainBoardGrid.RemoveEntity(enemyView);
@@ -207,7 +209,7 @@ public class EnemyController : MonoBehaviour
         }
         preparedAttacks.Clear();
     }
-    void MoveAfterLineAttack()
+    void MoveAfterAttack()
     {
         if (lineAttackTargets.Count == 0)
             return;
@@ -225,6 +227,10 @@ public class EnemyController : MonoBehaviour
 
         if (mainBoardGrid.IsInRange(closestTargetToPlayer) && mainBoardGrid.entitiesOnTiles[closestTargetToPlayer.x, closestTargetToPlayer.y] == null)
             enemyView.UpdatePos(closestTargetToPlayer);
+    }
+    void DropExp()
+    {
+
     }
 
     List<Vector2Int> GetClosestAttackablePositions(int count)

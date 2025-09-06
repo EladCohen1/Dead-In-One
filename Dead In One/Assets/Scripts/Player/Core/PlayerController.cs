@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("Components")]
     [SerializeField] PlayerView playerView;
     [SerializeField] PlayerModel playerModel;
+    public PlayerLevelManager playerLevelManager;
 
     [Header("Weapons")]
     public List<WeaponController> ownedWeapons = new();
@@ -23,6 +24,13 @@ public class PlayerController : MonoBehaviour
     public event Action EndPlayerTurnEvent;
     public event Action StartPlayerTurnEvent;
     public event Action PlayerDeathEvent;
+
+    // Runtime Data Changes Events
+    public event Action<int> HPChanged;
+    public event Action<int> MaxHPChanged;
+    public event Action<int> CurrentLevelChanged;
+    public event Action<int> CurrentExpChanged;
+    public event Action<int> ReqExpLevelUpChanged;
 
     void Awake()
     {
@@ -124,8 +132,15 @@ public class PlayerController : MonoBehaviour
     {
         playerModel.TakeDamage(damage);
         playerView.FlashAttacked();
+        HPChanged?.Invoke(playerModel.HP);
         if (playerModel.HP <= 0)
             PlayerDeathEvent?.Invoke();
+    }
+    public void GainExp(int exp)
+    {
+        if (playerLevelManager.GainExp(exp))
+            HandleLevelUp();
+        CurrentExpChanged?.Invoke(playerLevelManager.currentExp);
     }
 
     // Public Data
@@ -134,6 +149,7 @@ public class PlayerController : MonoBehaviour
         return playerView.currentPos;
     }
 
+    // Utils
     void InitStarterWeapons()
     {
         foreach (WeaponSO weaponSO in playerModel.GetStarterWeaponSOs())
@@ -144,5 +160,12 @@ public class PlayerController : MonoBehaviour
     WeaponController InitWeapon(WeaponSO weaponSO)
     {
         return new WeaponController(weaponSO);
+    }
+    void HandleLevelUp()
+    {
+        MaxHPChanged?.Invoke(playerModel.GetMaxHp());
+        CurrentLevelChanged?.Invoke(playerLevelManager.currentLevel);
+        CurrentExpChanged?.Invoke(playerLevelManager.currentExp);
+        ReqExpLevelUpChanged?.Invoke(playerLevelManager.GetExpReqToLevelUp());
     }
 }

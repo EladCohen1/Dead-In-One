@@ -17,11 +17,13 @@ public class TileManager : MonoBehaviour
     // Runtime Vars
     Material currentMaterial;
     HashSet<EnemyController> attackers = new();
+    public int HeldExp;
 
     public void Init(MeshRenderer meshRenderer, Material baseMat, Material attackedMat)
     {
         (this.meshRenderer, this.baseMat, this.attackedMat) = (meshRenderer, baseMat, attackedMat);
         currentMaterial = baseMat;
+        HeldExp = 0;
     }
 
     // Public Methods

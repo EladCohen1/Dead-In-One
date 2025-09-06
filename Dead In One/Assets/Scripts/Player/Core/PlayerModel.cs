@@ -20,6 +20,11 @@ public class PlayerModel : MonoBehaviour
     void Awake()
     {
         HP = _stats.Base_HP;
+        ServiceLocator.Register(this);
+    }
+    void OnDestroy()
+    {
+        ServiceLocator.UnRegister(this);
     }
 
 
@@ -31,11 +36,15 @@ public class PlayerModel : MonoBehaviour
     public int GetMaxHp()
     {
         // Add Max_Hp calculation using buffs and stat increases from proper managers here
-        return _stats.Base_HP;
+        return (int)(_stats.Base_HP * playerController.playerLevelManager.levelStatModifier);
+    }
+    public int GetCurrentHP()
+    {
+        return HP;
     }
     public float GetDamageMod()
     {
-        return _stats.Base_Damage_Mod;
+        return _stats.Base_Damage_Mod * playerController.playerLevelManager.levelStatModifier;
     }
     public List<WeaponSO> GetStarterWeaponSOs()
     {
@@ -43,9 +52,16 @@ public class PlayerModel : MonoBehaviour
     }
 
     // Public Actions
-    public void TakeDamage(int damage)
+    public int TakeDamage(int damage)
     {
-        HP -= damage;
+        int damageTaken = CalcDamageTaken(damage);
+        HP -= damageTaken;
+        return damageTaken;
+    }
+    public int Heal(int amount)
+    {
+        HP = Mathf.Clamp(HP + amount, 0, GetMaxHp());
+        return HP;
     }
 
     // Action Points
@@ -57,5 +73,13 @@ public class PlayerModel : MonoBehaviour
     {
         CurrentActionPoints -= pointsToUse;
         return CurrentActionPoints <= 0;
+    }
+
+    // Utils
+    int CalcDamageTaken(int damage)
+    {
+        float reductionPercent = _stats.Base_Armor * playerController.playerLevelManager.levelStatModifier * 0.01f;
+        reductionPercent = Mathf.Clamp01(reductionPercent);
+        return (int)(damage * (1f - reductionPercent));
     }
 }

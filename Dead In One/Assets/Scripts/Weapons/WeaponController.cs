@@ -7,11 +7,15 @@ public class WeaponController
 
     // Runtime Data
     int currentCharge;
+    int currentLevel;
+    float levelStatModifier;
 
     public WeaponController(WeaponSO weaponSO)
     {
         _weaponSO = weaponSO;
         currentCharge = weaponSO.Attack_Charge_Cost;
+        currentLevel = 0;
+        LevelUp();
     }
 
 
@@ -41,7 +45,7 @@ public class WeaponController
     public int RollDamage(out bool didCrit)
     {
         didCrit = Random.value < Mathf.Clamp01(_weaponSO.Crit_Chance * 0.01f);
-        return didCrit ? (int)(_weaponSO.Damage * _weaponSO.Crit_Damage * 0.01f) : _weaponSO.Damage;
+        return didCrit ? (int)(_weaponSO.Damage * levelStatModifier * _weaponSO.Crit_Damage * 0.01f) : _weaponSO.Damage;
     }
     public bool Attack()
     {
@@ -54,5 +58,14 @@ public class WeaponController
     public void RechargeOnMove()
     {
         currentCharge += _weaponSO.Charge_Per_Move;
+    }
+    public void LevelUp()
+    {
+        levelStatModifier = GetLevelStatsModifier();
+        currentLevel++;
+    }
+    float GetLevelStatsModifier()
+    {
+        return currentLevel * 0.2f + 1; ;
     }
 }
