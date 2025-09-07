@@ -20,6 +20,10 @@ public class WeaponController
 
 
     // Public Getters
+    public string GetUID()
+    {
+        return _weaponSO.UID;
+    }
     public Vector2Int[] GetAttackDirs()
     {
         return _weaponSO.attacksDirs;
@@ -40,12 +44,16 @@ public class WeaponController
     {
         return _weaponSO.attackedCritMat;
     }
+    public int GetLevel()
+    {
+        return currentLevel;
+    }
 
     // Public Actions
-    public int RollDamage(out bool didCrit)
+    public int RollDamage(float critRateAdd, float critDamageAdd, out bool didCrit)
     {
-        didCrit = Random.value < Mathf.Clamp01(_weaponSO.Crit_Chance * 0.01f);
-        return didCrit ? (int)(_weaponSO.Damage * levelStatModifier * _weaponSO.Crit_Damage * 0.01f) : _weaponSO.Damage;
+        didCrit = Random.value < Mathf.Clamp01((_weaponSO.Crit_Chance + critRateAdd) * 0.01f);
+        return didCrit ? (int)(_weaponSO.Damage * levelStatModifier * (_weaponSO.Crit_Damage + critDamageAdd) * 0.01f) : _weaponSO.Damage;
     }
     public bool Attack()
     {

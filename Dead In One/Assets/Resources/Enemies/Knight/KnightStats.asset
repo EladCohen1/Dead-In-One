@@ -14,13 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Knight
   Base_HP: 150
-  Moves_Per_Turn: 1
-  Base_Armor: 3
-  Max_Movement_Squares: 10
+  Base_Armor: 10
   Damage: 20
   Number_Of_Attacks: 1
   Hp_Drop_Chance: 5
   Hp_Dropped: 15
   Exp_Drop_Chance: 60
-  Exp_Dropped: 20
+  Exp_Dropped: 10
   Attack_Range_Grace: 2

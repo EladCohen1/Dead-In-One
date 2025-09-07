@@ -133,6 +133,11 @@ MonoBehaviour:
   playerView: {fileID: 3507557657321411903}
   playerModel: {fileID: 3295349604250019428}
   playerLevelManager: {fileID: 3361913785152132029}
+  allWeapons:
+  - {fileID: 11400000, guid: 459f66ded552a0648808ba4434a4ed2d, type: 2}
+  - {fileID: 11400000, guid: 09dda4966b300d4469cb6a0d9a9ffb45, type: 2}
+  - {fileID: 11400000, guid: d67162487512e034eb8e2ec467626575, type: 2}
+  - {fileID: 11400000, guid: 2b6edb93bf5f74a4aab2b5d544c22a9d, type: 2}
 --- !u!114 &3295349604250019428
 MonoBehaviour:
   m_ObjectHideFlags: 0

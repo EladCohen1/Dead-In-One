@@ -63,6 +63,7 @@ public class EnemyModel : MonoBehaviour
     // Public Actions
     public void TakeDamage(int damage)
     {
-        HP -= damage;
+        float reductionPercent = Mathf.Clamp01(_stats.Base_Armor * 0.01f);
+        HP -= (int)(damage * (1f - reductionPercent));
     }
 }

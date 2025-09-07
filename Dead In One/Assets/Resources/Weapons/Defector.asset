@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf20387d18a98fd469663101396d31ec, type: 3}
-  m_Name: Basic
+  m_Name: Defector
   m_EditorClassIdentifier: 
-  UID: 1001
-  Name: Basic
+  UID: 2001
+  Name: Defector
+  CardDescription: A lowly pawn fractured by betrayal, its cracks glowing with treacherous
+    power.
   Charge_Per_Move: 1
   Attack_Charge_Cost: 1
   Damage: 100
@@ -32,3 +34,4 @@ MonoBehaviour:
   attackedMat: {fileID: 2100000, guid: db73ab73d04fb8d45b7a07bdf3b1e234, type: 2}
   attackingCritMat: {fileID: 2100000, guid: a2cb5ad9041776f4c83c098d3f7351e3, type: 2}
   attackedCritMat: {fileID: 2100000, guid: 5f8328a0a54a61d44a1a7865fb241c84, type: 2}
+  portrait: {fileID: 21300000, guid: 10cb2cf957ee1624fa43d587aae38ad4, type: 3}

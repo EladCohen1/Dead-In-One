@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public PlayerLevelManager playerLevelManager;
 
     [Header("Weapons")]
+    [SerializeField] List<WeaponSO> allWeapons;
     public List<WeaponController> ownedWeapons = new();
 
     // Events
@@ -86,7 +87,7 @@ public class PlayerController : MonoBehaviour
             if (!weapon.Attack())
                 continue;
 
-            int rolledDamage = weapon.RollDamage(out bool didCrit);
+            int rolledDamage = weapon.RollDamage(playerModel.GetCritChanceAdd(), playerModel.GetCritDamageAdd(), out bool didCrit);
 
             foreach (Vector2Int attackDir in weapon.GetAttackDirs())
             {
@@ -134,7 +135,10 @@ public class PlayerController : MonoBehaviour
         playerView.FlashAttacked();
         HPChanged?.Invoke(playerModel.HP);
         if (playerModel.HP <= 0)
+        {
             PlayerDeathEvent?.Invoke();
+            inputChannel.input.Disable();
+        }
     }
     public void GainExp(int exp)
     {
@@ -143,11 +147,46 @@ public class PlayerController : MonoBehaviour
         else
             CurrentExpChanged?.Invoke(playerLevelManager.currentExp);
     }
+    public void GetReward(string weaponUID)
+    {
+        WeaponController givenWeapon = ownedWeapons.Find(x => x.GetUID() == weaponUID);
+        if (givenWeapon != null)
+        {
+            givenWeapon.LevelUp();
+            return;
+        }
+
+        WeaponSO newWeaponSO = allWeapons.Find(x => x.UID == weaponUID);
+        ownedWeapons.Add(InitWeapon(newWeaponSO));
+    }
 
     // Public Data
     public Vector2Int GetCurrentPosition()
     {
         return playerView.currentPos;
+    }
+    public HashSet<string> GetOwnedWeaponUIDs()
+    {
+        HashSet<string> result = new();
+        foreach (WeaponController weapon in ownedWeapons)
+        {
+            result.Add(weapon.GetUID());
+        }
+        return result;
+    }
+    public HashSet<string> GetNonOwnedWeaponUIDs()
+    {
+        HashSet<string> result = new();
+        foreach (WeaponSO weapon in allWeapons)
+        {
+            if (ownedWeapons.Find(x => x.GetUID() == weapon.UID) == null)
+                result.Add(weapon.UID);
+        }
+        return result;
+    }
+    public WeaponSO GetWeapon(string UID)
+    {
+        return allWeapons.Find(x => x.UID == UID);
     }
 
     // Utils

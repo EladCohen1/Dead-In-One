@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "WeaponSO", menuName = "Weapons/Weapon")]
 public class WeaponSO : ScriptableObject
@@ -6,6 +7,7 @@ public class WeaponSO : ScriptableObject
     [Header("Data")]
     public string UID;
     public string Name;
+    public string CardDescription;
     public int Charge_Per_Move;
     public int Attack_Charge_Cost;
     public int Damage;
@@ -21,4 +23,7 @@ public class WeaponSO : ScriptableObject
 
     public Material attackingCritMat;
     public Material attackedCritMat;
+
+    [Header("Card Visuals")]
+    public Sprite portrait;
 }

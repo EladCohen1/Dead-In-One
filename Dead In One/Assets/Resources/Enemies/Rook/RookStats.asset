@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: RookStats
   m_EditorClassIdentifier: 
   Name: Rook
-  Base_HP: 150
-  Moves_Per_Turn: 1
+  Base_HP: 200
   Base_Armor: 0
-  Max_Movement_Squares: 8
   Damage: 10
   Number_Of_Attacks: 1
   Hp_Drop_Chance: 5
   Hp_Dropped: 20
   Exp_Drop_Chance: 80
-  Exp_Dropped: 5
+  Exp_Dropped: 20
   Attack_Range_Grace: 2

@@ -50,6 +50,14 @@ public class PlayerModel : MonoBehaviour
     {
         return starterWeapons;
     }
+    public float GetCritChanceAdd()
+    {
+        return _stats.Base_Crit_Chance_Add * playerController.playerLevelManager.levelStatModifier;
+    }
+    public float GetCritDamageAdd()
+    {
+        return _stats.Base_Crit_Damage_Add * playerController.playerLevelManager.levelStatModifier;
+    }
 
     // Public Actions
     public int TakeDamage(int damage)

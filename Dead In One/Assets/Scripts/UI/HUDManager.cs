@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class HUDManager : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] TextMeshProUGUI HPTextElement;

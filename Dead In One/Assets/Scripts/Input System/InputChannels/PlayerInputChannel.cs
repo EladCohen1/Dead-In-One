@@ -7,7 +7,7 @@ public class PlayerInputChannel : ScriptableObject, InputSystem_Actions.IPlayerA
 {
     public event Action<Vector2Int> OnMoveEvent;
 
-    private InputSystem_Actions input;
+    public InputSystem_Actions input;
 
 
     private void OnEnable()

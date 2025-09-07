@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf20387d18a98fd469663101396d31ec, type: 3}
+  m_Name: Widow
+  m_EditorClassIdentifier: 
+  UID: 2003
+  Name: Widow
+  CardDescription: "A regal queen crowned in shadows, draped in a widow\u2019s veil
+    and venomous intent."
+  Charge_Per_Move: 1
+  Attack_Charge_Cost: 5
+  Damage: 150
+  Crit_Chance: 20
+  Crit_Damage: 150
+  attacksDirs:
+  - {x: 1, y: 0}
+  - {x: 2, y: 0}
+  - {x: 3, y: 0}
+  - {x: 4, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: 2}
+  - {x: 0, y: 3}
+  - {x: 0, y: 4}
+  - {x: -1, y: 0}
+  - {x: -2, y: 0}
+  - {x: -3, y: 0}
+  - {x: -4, y: 0}
+  - {x: 0, y: -1}
+  - {x: 0, y: -2}
+  - {x: 0, y: -3}
+  - {x: 0, y: -4}
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 3}
+  - {x: 4, y: 4}
+  - {x: -1, y: 1}
+  - {x: -2, y: 2}
+  - {x: -3, y: 3}
+  - {x: -4, y: 4}
+  - {x: -1, y: -1}
+  - {x: -2, y: -2}
+  - {x: -3, y: -3}
+  - {x: -4, y: -4}
+  - {x: 1, y: -1}
+  - {x: 2, y: -2}
+  - {x: 3, y: -3}
+  - {x: 4, y: -4}
+  attackingMat: {fileID: 2100000, guid: b1b385d2234e716448c252eac77df66b, type: 2}
+  attackedMat: {fileID: 2100000, guid: 8802ff547c48e93409c878e406a3a2bc, type: 2}
+  attackingCritMat: {fileID: 2100000, guid: 10af72e2a3b3b6c49863ea09d4f3c8b9, type: 2}
+  attackedCritMat: {fileID: 2100000, guid: 432b35ccd73bcfd42810303a42c93d15, type: 2}
+  portrait: {fileID: 21300000, guid: 54fb076b871e09d4985c81030762ef8e, type: 3}
